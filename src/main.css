@@ -7,7 +7,7 @@ body {
 
 .root{
   display: grid;
-  grid-template-rows: 1fr auto 1fr;
+  grid-template-rows: 80px auto 110px;
 }
 
 h1, h2 {
