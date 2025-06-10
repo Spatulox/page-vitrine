@@ -1,6 +1,6 @@
 function Contact() {
     return (
-        <div>
+        <div className="d-flex flex-column align-items-center">
             <h1>Contactez-nous</h1>
             <form>
                 <input type="text" placeholder="Nom" required/><br/>
