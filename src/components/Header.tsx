@@ -1,5 +1,16 @@
+import { Link } from "react-router-dom"
+
 function Header(){
-    return <div><h1>Header</h1></div>
+    return (
+        <header>
+            <nav>
+                <Link to="/">Accueil</Link> |{" "}
+                <Link to="/sessions">Sessions</Link> |{" "}
+                <Link to="/booking">Réservation</Link> |{" "}
+                <Link to="/contact">Contact</Link>
+            </nav>
+        </header>
+    )
 }
 
 export default Header
