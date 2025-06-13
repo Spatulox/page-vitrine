@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
         <Header />
-        <main>
+        <main className="container">
         <Routes>
           <Route path={"/"} element={<Accueil />}></Route>
           <Route path={"/accueil"} element={<Accueil />}></Route>
