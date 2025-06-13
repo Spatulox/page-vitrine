@@ -10,7 +10,7 @@ function Contact() {
             </p>
             <p>
                 📵 Nous vous invitons à <strong>privilégier le formulaire</strong> pour une réponse rapide.<br />
-                ☎️ <strong>+33 1 43 29 26 21</strong>
+                ☎️ <strong>+33 4 00 00 00 00</strong>
             </p>
 
             <form className="contact-form">
