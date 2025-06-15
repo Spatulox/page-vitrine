@@ -9,11 +9,8 @@ function Legal() {
                 il est précisé aux utilisateurs du site l’identité des différents intervenants :
             </p>
             <ul>
-                <li><strong>Propriétaire :</strong> Sparkling SAS</li>
-                <li><strong>Créateurs :</strong> Rémi Prieur – Benjamin Bouwyn</li>
-                <li><strong>Responsable publication :</strong> Rémi Prieur</li>
-                <li><strong>L’équipe :</strong> Rémi Prieur, Benjamin Bouwyn, Mélanie Vives, Melissa Faucher</li>
-                <li><strong>Hébergeur :</strong> Gandi – 63 boulevard Massena – 75013 Paris – France</li>
+                <li><strong>Propriétaire :</strong> ESGI</li>
+                <li><strong>Créateurs :</strong> HELLEUX Alexandre – LECOMTE Marc – PRADELLE Nathan</li>
             </ul>
 
             <h2>2. Conditions générales d’utilisation</h2>
@@ -30,7 +27,7 @@ function Legal() {
 
             <h2>4. Limitations contractuelles sur les données techniques</h2>
             <p>
-                Le site utilise la technologie JavaScript. L’utilisateur s’engage à utiliser un matériel récent et sécurisé.
+                Le site utilise la technologie React. L’utilisateur s’engage à utiliser un matériel récent et sécurisé.
             </p>
 
             <h2>5. Propriété intellectuelle et contrefaçons</h2>
@@ -39,13 +36,7 @@ function Legal() {
                 sanctionnée par le Code de la propriété intellectuelle.
             </p>
 
-            <h2>6. Limitations de responsabilité</h2>
-            <p>
-                Rémi Prieur ne pourra être tenu responsable de dommages matériels ou indirects liés à l’utilisation du site.
-                Des espaces interactifs sont modérés, et tout abus peut entraîner suppression ou poursuite.
-            </p>
-
-            <h2>7. Gestion des données personnelles</h2>
+            <h2>6. Gestion des données personnelles</h2>
             <p>
                 Les données collectées sont limitées à l’usage du site. Conformément à la loi informatique et libertés,
                 chaque utilisateur dispose d’un droit d’accès, de rectification et d’opposition.
@@ -62,17 +53,6 @@ function Legal() {
                 Tout litige lié à l’utilisation du site est soumis au droit français. Compétence exclusive : tribunaux de Paris.
             </p>
 
-            <h2>10. Lois concernées</h2>
-            <ul>
-                <li>Loi n° 78-87 du 6 janvier 1978 (informatique et libertés)</li>
-                <li>Loi n° 2004-575 du 21 juin 2004 (confiance dans l’économie numérique)</li>
-            </ul>
-
-            <h2>11. Lexique</h2>
-            <p>
-                <strong>Utilisateur :</strong> Internaute utilisant le site.<br />
-                <strong>Informations personnelles :</strong> Toute donnée permettant l’identification directe ou indirecte d’une personne physique.
-            </p>
         </div>
     );
 }

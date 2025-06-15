@@ -1,11 +1,11 @@
 function LaboPage() {
     return (
         <div className="session-page">
-            <h1>La Crypte Maudite</h1>
+            <h1>Le Laboratoire Interdit</h1>
             <p>
-                Explorez une crypte maudite et échappez à ses pièges mortels. Une atmosphère sombre et angoissante garantie.
+                Entrez dans un laboratoire abandonné où d’étranges expériences ont mal tourné. Entre mutations et mystères, vous n’en ressortirez peut-être pas indemnes...
             </p>
-            <p><strong>Tarif :</strong> 14€/joueur</p>
+            <p><strong>Tarif :</strong> 17€/joueur</p>
         </div>
     );
 }

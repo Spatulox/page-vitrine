@@ -1,12 +1,11 @@
-
 function MinePage() {
     return (
         <div className="session-page">
-            <h1>La Crypte Maudite</h1>
+            <h1>La Mine Oubliée</h1>
             <p>
-                Explorez une crypte maudite et échappez à ses pièges mortels. Une atmosphère sombre et angoissante garantie.
+                Plongez dans les profondeurs d’une ancienne mine où d’étranges disparitions ont été signalées. Les galeries sombres renferment bien plus que du charbon…
             </p>
-            <p><strong>Tarif :</strong> 14€/joueur</p>
+            <p><strong>Tarif :</strong> 15€/joueur</p>
         </div>
     );
 }

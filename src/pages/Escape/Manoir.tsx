@@ -1,11 +1,11 @@
 function ManoirPage() {
     return (
         <div className="session-page">
-            <h1>La Crypte Maudite</h1>
+            <h1>Le Manoir du Diable</h1>
             <p>
-                Explorez une crypte maudite et échappez à ses pièges mortels. Une atmosphère sombre et angoissante garantie.
+                Infiltrez un manoir abandonné et affrontez les forces maléfiques qui y résident. Chaque porte peut être la dernière…
             </p>
-            <p><strong>Tarif :</strong> 14€/joueur</p>
+            <p><strong>Tarif :</strong> 16€/joueur</p>
         </div>
     );
 }
