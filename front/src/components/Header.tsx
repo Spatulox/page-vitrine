@@ -27,6 +27,7 @@ function Header() {
                     <Link to={UrlRoute.Contact}>Contact</Link> |{" "}
                     {isLogged ? (<>
                         <Link to={UrlRoute.Account}>Compte</Link> |{" "}
+                        <Link to={UrlRoute.Manage}>Gérer</Link> |{" "}
                         <Link to={""} onClick={logout}>Se déconnecter</Link>
                         </>
                     ) : (

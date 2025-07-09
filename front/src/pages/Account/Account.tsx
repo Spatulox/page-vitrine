@@ -88,6 +88,5 @@ export default function Account() {
             me={me}
         />
         <button onClick={() => navigate(UrlRoute.UpdateAccount)}>Mettre à jour mon compte</button>
-        {me.role != UserRole.client && (<button onClick={() => navigate(UrlRoute.Users)}>Gérer les utilisateurs</button>)}
     </>
 }

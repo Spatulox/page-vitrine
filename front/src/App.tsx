@@ -12,6 +12,7 @@ import { AuthProvider } from './components/AuthContext';
 import UserDetails from './pages/Users/UserDetails';
 import Users from './pages/Users/Users';
 import UpdateMyAccount from './pages/Account/UpdateAccount';
+import Manage from './pages/Manage/Manage';
 
 
 
@@ -25,6 +26,8 @@ export enum UrlRoute {
   Contact = "/contact",
   Booking = "/booking",
   Rooms = "/rooms",
+
+  Manage = "/manage",
 
   Users = "/users",
 };
@@ -54,6 +57,9 @@ function App() {
           <Route path={`${UrlRoute.Users}`} element={<Users />} />
           <Route path={`${UrlRoute.Users}/:id`} element={<UserDetails />} />
           <Route path={`${UrlRoute.Users}/me`} element={<Account />} />
+
+
+          <Route path={`${UrlRoute.Manage}`} element={<Manage />} />
 
 
         </Routes>
