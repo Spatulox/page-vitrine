@@ -3,7 +3,7 @@ import type { User } from "../../api/User"
 import { GetApi } from "../../api/Axios"
 import { useNavigate } from "react-router-dom"
 
-export default function EmployeeAccount(){
+export default function EmployeeUsers(){
     const [users, setUsers] = useState<User[] | null>()
     const navigate = useNavigate()
 
