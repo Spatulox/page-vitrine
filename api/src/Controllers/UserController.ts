@@ -1,18 +1,43 @@
-import { JsonController, Param, Body, Get, Post, Put, Delete, HeaderParam, Authorized, CurrentUser, Patch, InternalServerError, ForbiddenError, HttpCode, BadRequestError } from 'routing-controllers';
+import { JsonController, Param, Body, Get, Post, Put, Delete, HeaderParam, Authorized, CurrentUser, Patch, InternalServerError, ForbiddenError, HttpCode, BadRequestError, QueryParams } from 'routing-controllers';
 import { FilledUser, User } from "../Models/UserModel"
-import { deleteUserById, getAllUsers, updateAccountAdmin } from '../Services/users/usersAdmin';
+import { createEmployee, deleteUserById, getAllAdmin, getAllClients, getAllEmployee, getAllUsers, updateAccountAdmin } from '../Services/users/usersAdmin';
 import { zObjectId } from '../Validators/utils';
 import { deleteMyAccount, getUserById, updateMyAccount } from '../Services/users/usersPublic';
 import { UserRole } from '../DB_Schema/UserSchema';
 import { ObjectID } from '../DB_Schema/connexion';
-import { zUpdateAccount, zUpdateAccountAdmin } from '../Validators/users';
+import { zCreateEmployee, zUpdateAccount, zUpdateAccountAdmin } from '../Validators/users';
 
 @JsonController("/admin/users")
 export class AdminUserController {
+  
   @Get('/')
   @Authorized([UserRole.admin, UserRole.employee])
-  async getAll(): Promise<FilledUser[]> {
-    return await getAllUsers()
+  async getAll(@QueryParams() query: { client?: string; employee?: string; admin?: string }): Promise<{client: FilledUser[], employee: FilledUser[], admin: FilledUser[]}> {
+    const roles = Object.keys(query).length === 0
+      ? ["client", "employee", "admin"]
+      : Object.entries(query)
+          .filter(([role, value]) => value !== undefined && value !== "false" && value !== "0")
+          .map(([role]) => role);
+
+    // Prépare les promesses
+    const promises: Record<string, Promise<FilledUser[]>> = {};
+    if (roles.includes("client")) promises.client = getAllClients();
+    if (roles.includes("employee")) promises.employee = getAllEmployee();
+    if (roles.includes("admin")) promises.admin = getAllAdmin();
+
+    // Lance les requêtes en parallèle
+    const results = await Promise.all([
+      promises.client ?? Promise.resolve([]),
+      promises.employee ?? Promise.resolve([]),
+      promises.admin ?? Promise.resolve([]),
+    ]);
+
+    // Retourne l'objet structuré
+    return {
+      client: results[0],
+      employee: results[1],
+      admin: results[2],
+    };
   }
 
   @Get('/:id')
@@ -20,6 +45,15 @@ export class AdminUserController {
   async getUserByIdAdmin(@Param('id') user_id: ObjectID): Promise<FilledUser | null> {
     const validId = zObjectId.parse(user_id)
     return await getUserById(new ObjectID(validId));
+  }
+
+
+  @Post('/')
+  @Authorized([UserRole.admin])
+  @HttpCode(204)
+  async createEmployeeAccount(@Body() body: any): Promise<boolean> {
+      const validBody = zCreateEmployee.parse(body)
+      return createEmployee(validBody)
   }
 
   @Put('/:id')

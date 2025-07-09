@@ -1,7 +1,8 @@
+import { InternalServerError } from "routing-controllers";
 import { ObjectID } from "../../DB_Schema/connexion";
 import { UserRole, UserTable } from "../../DB_Schema/UserSchema";
 import { FilledUser, User } from "../../Models/UserModel";
-import { UpdateAccountAdminType } from "../../Validators/users";
+import { CreateEmployeetype, UpdateAccountAdminType } from "../../Validators/users";
 import { toUserObject } from "./usersPublic";
 
 export async function getAllUsers(): Promise<FilledUser[]> {
@@ -50,4 +51,20 @@ export async function updateAccountAdmin(user_id: ObjectID, option: UpdateAccoun
         console.error(e)
         return false
     }
+}
+
+
+export async function createEmployee(values: CreateEmployeetype): Promise<boolean> {
+  try {
+    const val: Omit<User, "_id"> = {
+        ...values,
+        role: UserRole.employee,
+        password: "fakepassword"
+    }
+    await UserTable.insertOne(val);
+    return true
+  } catch (error) {
+    console.error(error);
+    throw new InternalServerError("Impossible de créer le compte");
+  }
 }
