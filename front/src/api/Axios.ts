@@ -110,19 +110,19 @@ export async function GetApi(url: string) {
   }
 }
 
-export async function PostApi(url: string, body: object) {
+export async function PostApi(url: string, body?: object) {
   return (await fetchApi(url, { method: 'POST', body })).data;
 }
 
-export async function PacthApi(url: string, body: object) {
+export async function PacthApi(url: string, body?: object) {
   return (await fetchApi(url, { method: 'PATCH', body })).data;
 }
 
-export async function PutApi(url: string, body: object) {
+export async function PutApi(url: string, body?: object) {
   return (await fetchApi(url, { method: 'PUT', body })).data;
 }
 
-export async function DeleteApi(url: string, body: object) {
+export async function DeleteApi(url: string, body?: object) {
   return (await fetchApi(url, { method: 'DELETE', body })).data;
 }
 
