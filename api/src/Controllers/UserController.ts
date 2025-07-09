@@ -85,7 +85,7 @@ export class UserController {
     return await getUserById(user._id)
   }
 
-  @Patch('/:id')
+  @Put('/:id')
   @Authorized()
   @HttpCode(204)
   async updateUser(@Param('id') user_id: ObjectID, @CurrentUser() user: User, @Body() body: any): Promise<boolean> {
