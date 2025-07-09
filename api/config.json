@@ -1,0 +1,4 @@
+{
+    "jwtSalt":"$2b$10$abcdefghijklmnopqrstuv",
+    "passwordSalt":"$2b$10$abcdefghijklmnopqrstuv"
+}
