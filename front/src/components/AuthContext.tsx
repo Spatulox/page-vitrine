@@ -1,5 +1,5 @@
 // AuthContext.tsx
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, type ReactNode } from "react";
 import { Deconnection, UserIsLogged } from "../api/Axios";
 
 // 1. Définis le type du contexte

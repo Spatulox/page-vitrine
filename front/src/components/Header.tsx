@@ -13,8 +13,10 @@ function Header() {
                     <Link to={UrlRoute.Sessions}>Sessions</Link> |{" "}
                     <Link to={UrlRoute.Booking}>Réservation</Link> |{" "}
                     <Link to={UrlRoute.Contact}>Contact</Link> |{" "}
-                    {isLogged ? (
+                    {isLogged ? (<>
+                        <Link to={UrlRoute.Account}>Compte</Link> |{" "}
                         <Link to={""} onClick={logout}>Se déconnecter</Link>
+                        </>
                     ) : (
                         <Link to={UrlRoute.Account}>Compte</Link>
                     )}

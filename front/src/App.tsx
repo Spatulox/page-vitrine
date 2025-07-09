@@ -9,6 +9,7 @@ import Booking from './pages/Booking/Booking';
 import { Room, RoomDetails } from './pages/Escape/Rooms';
 import Account from './pages/Account/Account';
 import { AuthProvider } from './components/AuthContext';
+import AccountDetails from './pages/Account/AccountDetails';
 
 
 
@@ -21,6 +22,8 @@ export enum UrlRoute {
   Contact = "/contact",
   Booking = "/booking",
   Rooms = "/rooms",
+
+  Users = "/users",
 };
 
 function App() {
@@ -42,6 +45,9 @@ function App() {
           
           <Route path={UrlRoute.Rooms} element={<Room />} />
           <Route path={`${UrlRoute.Rooms}/:id`} element={<RoomDetails />} />
+
+
+          <Route path={`${UrlRoute.Users}/:id`} element={<AccountDetails />} />
 
 
         </Routes>

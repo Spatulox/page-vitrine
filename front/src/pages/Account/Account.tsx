@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { GetApi, PostApi, UserIsLogged } from "../../api/Axios";
-import type { User } from "../../api/User";
+import { UserRole, type User } from "../../api/User";
 import Loading from "../../components/loading";
 import { useAuth } from "../../components/AuthContext";
+import AdminAccount from "./AdminAccount";
+import EmployeeAccount from "./EmployeeAccount";
+import { MyActiveBook, MyOldBook } from "../Booking/MyBooked";
 
 export default function Account() {
     const [me, setMe] = useState<User | null>(null);
@@ -78,15 +81,27 @@ export default function Account() {
         );
     }
 
-    return (
-        <div className="account-container">
-            <h1>Mon compte</h1>
-            <p><strong>Nom :</strong> {me.name}</p>
-            <p><strong>Email :</strong> {me.email}</p>
-            <p><strong>Téléphone :</strong> {me.phone}</p>
-            {/* Ajoute d'autres infos utilisateur ici */}
-            <h1>Mes réservations</h1>
-            <h1>Mon Historique de reservations</h1>
-        </div>
-    );
+
+    if(me.role == UserRole.client){
+        return (
+            <div className="account-container">
+                <h1>Mon compte</h1>
+                <p><strong>Nom :</strong> {me.name}</p>
+                <p><strong>Email :</strong> {me.email}</p>
+                <p><strong>Téléphone :</strong> {me.phone}</p>
+                {/* Ajoute d'autres infos utilisateur ici */}
+                <MyActiveBook/>
+                <MyOldBook/>
+            </div>
+        );
+    }
+
+    if(me.role == UserRole.employee){
+        return (<EmployeeAccount />)
+    }
+
+    if(me.role == UserRole.admin){
+        return (<AdminAccount />)
+    }
+
 }
