@@ -100,8 +100,8 @@ export const rooms: FilledRoom[] = [
         price: 18,
         estimated_duration: 30,
         duration: 45,
-        participants: 8,
-        max_participants: 12,
+        participants: 2,
+        max_participants: 6,
     },
     {
         _id: "1",
@@ -111,8 +111,8 @@ export const rooms: FilledRoom[] = [
         price: 14,
         estimated_duration: 30,
         duration: 45,
-        participants: 8,
-        max_participants: 12,
+        participants: 6,
+        max_participants: 6,
     },
     {
         _id: "2",
@@ -122,8 +122,8 @@ export const rooms: FilledRoom[] = [
         price: 17,
         estimated_duration: 30,
         duration: 45,
-        participants: 8,
-        max_participants: 12,
+        participants: 4,
+        max_participants: 6,
     },
     {
         _id: "3",
@@ -133,8 +133,8 @@ export const rooms: FilledRoom[] = [
         price: 16,
         estimated_duration: 30,
         duration: 45,
-        participants: 8,
-        max_participants: 12,
+        participants: 5,
+        max_participants: 6,
     },
     {
         _id: "4",
@@ -144,8 +144,8 @@ export const rooms: FilledRoom[] = [
         price: 15,
         estimated_duration: 30,
         duration: 45,
-        participants: 8,
-        max_participants: 12,
+        participants: 1,
+        max_participants: 6,
     },
     {
         _id: "5",
@@ -155,7 +155,7 @@ export const rooms: FilledRoom[] = [
         price: 16,
         estimated_duration: 30,
         duration: 45,
-        participants: 8,
-        max_participants: 12,
+        participants: 3,
+        max_participants: 6,
     }
 ]
