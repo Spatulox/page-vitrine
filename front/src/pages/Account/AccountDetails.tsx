@@ -103,14 +103,16 @@ export default function AccountDetails() {
             type="tel"
           />
         </label>
-        <label>
-          Rôle :
-          <select name="role" value={form.role} onChange={handleChange}>
-            <option value="client">Client</option>
-            <option value="employee">Employé</option>
-            {me?.role == UserRole.admin && (<option value="admin">Admin</option>)}
-          </select>
-        </label>
+        {me?.role == UserRole.admin && (
+          <label>
+            Rôle :
+            <select name="role" value={form.role} onChange={handleChange}>
+              <option value="client">Client</option>
+              <option value="employee">Employé</option>
+                <option value="admin">Admin</option>
+                </select>
+          </label>
+        )}
         <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
           <button style={{ background: "red", color: "white" }} onClick={handleDelete}>
             Supprimer l'utilisateur
