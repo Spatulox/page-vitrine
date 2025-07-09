@@ -5,22 +5,39 @@ import { zObjectId } from '../Validators/utils';
 import { deleteMyAccount, getUserById, updateMyAccount } from '../Services/users/usersPublic';
 import { UserRole } from '../DB_Schema/UserSchema';
 import { ObjectID } from '../DB_Schema/connexion';
-import { zUpdateAccount } from '../Validators/users';
+import { zUpdateAccount, zUpdateAccountAdmin } from '../Validators/users';
 
 @JsonController("/admin/users")
 export class AdminUserController {
   @Get('/')
-  @Authorized(UserRole.admin)
+  @Authorized(UserRole.admin || UserRole.employee)
   async getAll(): Promise<FilledUser[]> {
     return await getAllUsers()
   }
 
   @Get('/:id')
-  @Authorized(UserRole.admin)
+  @Authorized(UserRole.admin || UserRole.employee)
   async getUserByIdAdmin(@Param('id') user_id: ObjectID): Promise<FilledUser | null> {
     const validId = zObjectId.parse(user_id)
     return await getUserById(new ObjectID(validId));
   }
+
+  @Put('/:id')
+  @Authorized(UserRole.admin || UserRole.employee)
+  @HttpCode(204)
+  async updateUser(@Param('id') user_id: ObjectID, @CurrentUser() user: User, @Body() body: any): Promise<boolean> {
+    const validId = zObjectId.parse(user_id)
+    const validBody = zUpdateAccountAdmin.parse(body)
+    if(validId == user._id.toString()){
+      if(!await updateMyAccount(user, validBody)){
+        throw new BadRequestError()
+      };
+    } else {
+      throw new BadRequestError("You can't do that")
+    }
+    return true
+  }
+
 }
 
 @JsonController("/users")

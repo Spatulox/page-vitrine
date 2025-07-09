@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import express from 'express';
 import { RoutingControllersOptions, useExpressServer } from 'routing-controllers';
-import { UserController } from './Controllers/UserController';
+import { AdminUserController, UserController } from './Controllers/UserController';
 import { connectDB } from './DB_Schema/connexion';
 import { ErrorHandler } from './Middleware/error-handling';
 import { authMiddleware, getCurrentUser } from './Middleware/auth';
@@ -24,6 +24,8 @@ async function main(){
       credentials: true
     },
     controllers: [
+      AdminUserController,
+
       AuthController,
       RoomController,
       UserController],

@@ -4,8 +4,7 @@ import { UpdateAccountType } from "../../Validators/users";
 import { ObjectID } from "../../DB_Schema/connexion";
 
 export async function getUserById(userId: ObjectID): Promise<FilledUser | null> {
-    const obj = await UserTable.findById(userId)
-        .exec();
+    const obj = await UserTable.findById(userId).exec();
     return toUserObject(obj)
 }
 
