@@ -1,4 +1,4 @@
-import { RoomsCards } from "../Escape/Rooms";
+import { Room, RoomsCards } from "../Escape/Rooms";
 
 function Accueil() {
 
@@ -9,7 +9,7 @@ function Accueil() {
                 Bienvenue dans l’univers terrifiant de l’escape game horreur.
             </p>
 
-            <RoomsCards />
+            <Room />
 
             <h2>À propos</h2>
             <p >

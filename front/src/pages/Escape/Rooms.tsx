@@ -1,36 +1,49 @@
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { rooms } from "../data";
 import { UrlRoute } from "../../App";
+import type { Room } from "../../api/Room";
+import { GetApi } from "../../api/Axios";
+import Loading from "../../components/loading";
 
-export type Room = {
-    _id: number,
-    name: string,
-    description: string,
-    long_description: string,
-    price: number,
-    estimated_duration: number,
-    duration: number, /* In Minutes */
-    participants: number,
-    max_participants: number,
-}
-
+// Helper pour découper le tableau en lignes de 3
 const chunkArray = <T,>(arr: T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
     arr.slice(i * size, i * size + size)
-);
-
-
-export function Room() {
-  return (
-    <RoomsCards />
   );
+
+// Composant principal de la page des rooms (liste)
+export function Room() {
+  const [rooms, setRooms] = useState<Room[]>();
+  useEffect(() => {
+    (async () => {
+      const res = await GetApi("/rooms");
+      setRooms(res);
+    })();
+  }, []);
+
+  if (!rooms) return <Loading />;
+
+  return <RoomsCards rooms={rooms} />;
 }
 
-
+// Détails d'une salle
 export function RoomDetails() {
   const { id } = useParams<{ id: string }>();
-  const room = id ? rooms[parseInt(id, 10)] : undefined;
-  const navigate = useNavigate()
+  const [rooms, setRooms] = useState<Room[]>();
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const res = await GetApi("/rooms");
+      setRooms(res);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) return <div>Chargement...</div>;
+
+  const room = rooms?.find((r) => r._id === id);
 
   if (!room) {
     return (
@@ -78,9 +91,8 @@ export function RoomDetails() {
   );
 }
 
-
-
-export function RoomsCards() {
+// Affichage des cartes de rooms (reçoit rooms en props)
+export function RoomsCards({ rooms }: { rooms: Room[] }) {
   const rows = chunkArray(rooms, 3);
 
   return (
