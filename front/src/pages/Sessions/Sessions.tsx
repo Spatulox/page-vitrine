@@ -11,7 +11,7 @@ function Sessions() {
             <h2>Déroulement d’une Session</h2>
             <p className="centered-text">
                 Vous arrivez 15 minutes avant le début de la session. Un briefing est fait avant d’entrer dans la salle.<br />
-                L’équipe a 60 minutes pour résoudre les énigmes et s’échapper. Une Game Master vous guide à distance si besoin.
+                L’équipe a un temps données (en minutes) pour résoudre les énigmes et s’échapper. Une Game Master pourra vous guider à distance si besoin.
             </p>
 
             <h2>Réservation</h2>

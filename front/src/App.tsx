@@ -30,7 +30,10 @@ function App() {
           <Route path={UrlRoute.Sessions} element={<Sessions />} />
           <Route path={UrlRoute.Legal} element={<Legal />} />
           <Route path={UrlRoute.Contact} element={<Contact />} />
+          
           <Route path={UrlRoute.Booking} element={<Booking />} />
+          <Route path={`${UrlRoute.Booking}/:id`} element={<Booking />} />
+          
           <Route path={UrlRoute.Rooms} element={<Room />} />
           <Route path={`${UrlRoute.Rooms}/:id`} element={<RoomDetails />} />
         </Routes>
