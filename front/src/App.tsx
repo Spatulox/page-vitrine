@@ -9,7 +9,9 @@ import Booking from './pages/Booking/Booking';
 import { Room, RoomDetails } from './pages/Escape/Rooms';
 import Account from './pages/Account/Account';
 import { AuthProvider } from './components/AuthContext';
-import AccountDetails from './pages/Account/AccountDetails';
+import UserDetails from './pages/Users/UserDetails';
+import Users from './pages/Users/Users';
+import UpdateMyAccount from './pages/Account/UpdateAccount';
 
 
 
@@ -17,6 +19,7 @@ export enum UrlRoute {
   Base = "/",
   Accueil = "/accueil",
   Account = "/account",
+  UpdateAccount = "/account/update",
   Sessions = "/sessions",
   Legal = "/legal",
   Contact = "/contact",
@@ -36,6 +39,7 @@ function App() {
           <Route path={UrlRoute.Base} element={<Accueil />} />
           <Route path={UrlRoute.Accueil} element={<Accueil />} />
           <Route path={UrlRoute.Account} element={<Account />} />
+          <Route path={UrlRoute.UpdateAccount} element={<UpdateMyAccount />} />
           <Route path={UrlRoute.Sessions} element={<Sessions />} />
           <Route path={UrlRoute.Legal} element={<Legal />} />
           <Route path={UrlRoute.Contact} element={<Contact />} />
@@ -47,7 +51,9 @@ function App() {
           <Route path={`${UrlRoute.Rooms}/:id`} element={<RoomDetails />} />
 
 
-          <Route path={`${UrlRoute.Users}/:id`} element={<AccountDetails />} />
+          <Route path={`${UrlRoute.Users}`} element={<Users />} />
+          <Route path={`${UrlRoute.Users}/:id`} element={<UserDetails />} />
+          <Route path={`${UrlRoute.Users}/me`} element={<Account />} />
 
 
         </Routes>
