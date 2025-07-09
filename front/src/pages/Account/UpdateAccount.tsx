@@ -1,50 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { DeleteApi, PutApi } from "../../api/Axios";
+import { DeleteApi, GetApi, PutApi } from "../../api/Axios";
 import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { UrlRoute } from "../../App";
 
-// Simule une API ou un contexte pour récupérer l'utilisateur connecté
 async function fetchCurrentUser(): Promise<User> {
-  // Remplace par ton appel réel (fetch/axios ou context)
-  return {
-    _id: "123",
-    name: "Jean",
-    lastname: "Dupont",
-    email: "jean.dupont@email.com",
-    phone: "0601020304",
-    role: "client",
-  };
+  const res = await GetApi("/users/@me")
+  return res
 }
 
-// Simule une API d'update
-async function updateMyAccountEndpoint(data: Partial<User>) {
+async function updateMyAccountEndpoint(data: Partial<User>): Promise<boolean> {
     const {me} = useAuth()
     if(!me){
         alert("Pas de moi")
-        return
+        return false
     }
     try {
         await PutApi(`/users/${me._id}`, data);
+        return true
     } catch (e) {
         console.log(e)
+        return false
     }
 }
 
-// Simule une API de suppression
-async function deleteMyAccountEndpoint() {
-    if (!window.confirm("Supprimer cet utilisateur ?")) return;
+async function deleteMyAccountEndpoint(): Promise<boolean> {
+    if (!window.confirm("Supprimer cet utilisateur ?")) return false;
     const {me} = useAuth()
     const navigate = useNavigate()
     if(!me){
         alert("Pas de moi")
-        return
+        return false
     }
     try {
         await DeleteApi(`/users/${me._id}`);
         navigate(UrlRoute.Base);
+        return true
     } catch (e) {
         console.log(e)
+        return false
     }
 }
 
@@ -55,12 +49,6 @@ type User = {
   email: string;
   phone: string;
   role: "client" | "employee" | "admin";
-};
-
-const UserRole = {
-  client: "client",
-  employee: "employee",
-  admin: "admin",
 };
 
 export default function UpdateMyAccount() {
