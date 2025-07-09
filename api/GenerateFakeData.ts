@@ -35,6 +35,26 @@ async function FakeUsers() {
     });
     users.push(await adminUser.save());
 
+    const clientUser = new UserTable({
+        name: faker.person.firstName(),
+        lastname: faker.person.lastName(),
+        email: "client@client.com",
+        phone: faker.phone.number(),
+        role: UserRole.client,
+        password: await hashPassword("123456789"),
+    });
+    users.push(await clientUser.save());
+
+    const employeeUser = new UserTable({
+        name: faker.person.firstName(),
+        lastname: faker.person.lastName(),
+        email: "employee@employee.com",
+        phone: faker.phone.number(),
+        role: UserRole.employee,
+        password: await hashPassword("123456789"),
+    });
+    users.push(await employeeUser.save());
+
   // Create 20 member users
     for (let i = 0; i < 20; i++) {
         const user = new UserTable({
