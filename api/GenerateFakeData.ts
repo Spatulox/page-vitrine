@@ -43,7 +43,7 @@ async function FakeUsers() {
             email: faker.internet.email(),
             phone: faker.phone.number(),
             role: UserRole.client,
-            password: await hashPassword(faker.internet.password()),
+            password: await hashPassword("123456789"),
         });
         users.push(await user.save());
     }
