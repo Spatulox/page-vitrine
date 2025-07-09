@@ -5,7 +5,6 @@ import { ObjectID } from "../../DB_Schema/connexion";
 
 export async function getUserById(userId: ObjectID): Promise<FilledUser | null> {
     const obj = await UserTable.findById(userId)
-        .populate("group_chat_list_ids")
         .exec();
     return toUserObject(obj)
 }
