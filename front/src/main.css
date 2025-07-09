@@ -17,6 +17,11 @@ body {
   min-height: 100vh;
 }
 
+header .theme-select {
+  max-width: fit-content;
+  margin: auto;
+}
+
 nav, footer {
   background-color: #1a1a1a;
   padding: 15px 20px;
