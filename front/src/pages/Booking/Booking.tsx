@@ -1,40 +1,58 @@
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import type { Room } from "../Escape/Rooms";
-import { rooms } from "../data";
+import type { Room } from "../../api/Room";
+import { GetApi } from "../../api/Axios";
+import Loading from "../../components/loading";
 
 export default function Booking() {
   const { id } = useParams<{ id?: string }>();
 
-  // Trouver la room sélectionnée si id dans l'URL
-  const selectedRoom = id ? rooms.find((r: Room) => r._id === Number(id)) : undefined;
+  // States
+  const [rooms, setRooms] = useState<Room[] | null>(null);
+  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const [roomId, setRoomId] = useState<string>("");
 
-  // Form state
-  const [roomId, setRoomId] = useState<number | undefined>(
-    selectedRoom ? selectedRoom._id : undefined
-  );
-  const today = new Date().toISOString().split("T")[0];
-
-  // Form fields (exemple, tu peux étendre)
+  // Form fields
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  // Heures proposées
+  const today = new Date().toISOString().split("T")[0];
   const hours = [
     "09:30", "11:15", "13:00", "14:45",
     "16:30", "18:15", "20:00", "21:45"
   ];
 
+  // Fetch logic
+  useEffect(() => {
+    if (id) {
+      // On récupère uniquement la room demandée
+      GetApi(`/rooms/${id}`).then((room: Room) => {
+        setSelectedRoom(room);
+        setRoomId(room._id);
+      });
+    } else {
+      // On récupère toutes les rooms
+      GetApi("/rooms").then((rooms: Room[]) => {
+        setRooms(rooms);
+      });
+    }
+  }, [id]);
+
+  // Affichage du loader
+  if ((id && !selectedRoom) || (!id && !rooms)) {
+    return <Loading />;
+  }
+
   // Gestion du submit
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Ici tu peux envoyer les données à ton backend
+    const roomName = selectedRoom
+      ? selectedRoom.name
+      : rooms?.find((r) => r._id === roomId)?.name ?? "Non sélectionnée";
     alert(
-      `Réservation pour la salle : ${
-        rooms.find((r: Room) => r._id === roomId)?.name ?? "Non sélectionnée"
-      }\nDate : ${date}\nHeure : ${hour}\nNom : ${name}\nEmail : ${email}`
+      `Réservation pour la salle : ${roomName}\nDate : ${date}\nHeure : ${hour}\nNom : ${name}\nEmail : ${email}`
     );
   }
 
@@ -44,24 +62,10 @@ export default function Booking() {
       <p className="booking-info">
         Les réservations s’effectuent <strong>exclusivement en ligne</strong>, jusqu’à 3 mois à l’avance.
       </p>
-
       <form className="booking-form" onSubmit={handleSubmit}>
         <div className="booking-controls">
           {/* Sélecteur de salle */}
-          {!selectedRoom ? (
-            <select
-              required
-              value={roomId ?? ""}
-              onChange={(e) => setRoomId(Number(e.target.value))}
-            >
-              <option value="">Choisissez une session</option>
-              {rooms.map((room: Room) => (
-                <option value={room._id} key={room._id}>
-                  {room.name}
-                </option>
-              ))}
-            </select>
-          ) : (
+          {selectedRoom ? (
             <input
               type="text"
               value={selectedRoom.name}
@@ -69,6 +73,20 @@ export default function Booking() {
               className="booking-room-input"
               style={{ fontWeight: "bold" }}
             />
+          ) : (
+            <select
+              required
+              value={roomId}
+              onChange={(e) => setRoomId(e.target.value)}
+            >
+              <option value="">Choisissez une session</option>
+              {rooms &&
+                rooms.map((room) => (
+                  <option value={room._id} key={room._id}>
+                    {room.name}
+                  </option>
+                ))}
+            </select>
           )}
 
           {/* Date */}
