@@ -3,13 +3,14 @@ import { GetApi, PostApi, UserIsLogged } from "../../api/Axios";
 import { UserRole, type User } from "../../api/User";
 import Loading from "../../components/loading";
 import { useAuth } from "../../components/AuthContext";
-import AdminAccount from "./AdminAccount";
-import EmployeeAccount from "./EmployeeAccount";
-import { MyActiveBook, MyOldBook } from "../Booking/MyBooked";
+import { useNavigate } from "react-router-dom";
+import { UrlRoute } from "../../App";
+import DisplayUser from "../Users/DisplayUser";
 
 export default function Account() {
     const [me, setMe] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate()
 
     const {login} = useAuth()
 
@@ -81,27 +82,12 @@ export default function Account() {
         );
     }
 
-
-    if(me.role == UserRole.client){
-        return (
-            <div className="account-container">
-                <h1>Mon compte</h1>
-                <p><strong>Nom :</strong> {me.name}</p>
-                <p><strong>Email :</strong> {me.email}</p>
-                <p><strong>Téléphone :</strong> {me.phone}</p>
-                {/* Ajoute d'autres infos utilisateur ici */}
-                <MyActiveBook/>
-                <MyOldBook/>
-            </div>
-        );
-    }
-
-    if(me.role == UserRole.employee){
-        return (<EmployeeAccount />)
-    }
-
-    if(me.role == UserRole.admin){
-        return (<AdminAccount />)
-    }
-
+    return <>
+        <DisplayUser
+            user={me}
+            me={me}
+        />
+        <button onClick={() => navigate(UrlRoute.UpdateAccount)}>Mettre à jour mon compte</button>
+        {me.role != UserRole.client && (<button onClick={() => navigate(UrlRoute.Users)}>Gérer les utilisateurs</button>)}
+    </>
 }
