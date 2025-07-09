@@ -1,6 +1,6 @@
 import { JsonController, Param, Body, Get, Post, Put, Delete, HeaderParam, Authorized, CurrentUser, Patch, InternalServerError, ForbiddenError, HttpCode, BadRequestError } from 'routing-controllers';
 import { FilledUser, User } from "../Models/UserModel"
-import { deleteUserById, getAllUsers } from '../Services/users/usersAdmin';
+import { deleteUserById, getAllUsers, updateAccountAdmin } from '../Services/users/usersAdmin';
 import { zObjectId } from '../Validators/utils';
 import { deleteMyAccount, getUserById, updateMyAccount } from '../Services/users/usersPublic';
 import { UserRole } from '../DB_Schema/UserSchema';
@@ -10,48 +10,65 @@ import { zUpdateAccount, zUpdateAccountAdmin } from '../Validators/users';
 @JsonController("/admin/users")
 export class AdminUserController {
   @Get('/')
-  @Authorized(UserRole.admin || UserRole.employee)
+  @Authorized([UserRole.admin, UserRole.employee])
   async getAll(): Promise<FilledUser[]> {
     return await getAllUsers()
   }
 
   @Get('/:id')
-  @Authorized(UserRole.admin || UserRole.employee)
+  @Authorized([UserRole.admin, UserRole.employee])
   async getUserByIdAdmin(@Param('id') user_id: ObjectID): Promise<FilledUser | null> {
     const validId = zObjectId.parse(user_id)
     return await getUserById(new ObjectID(validId));
   }
 
   @Put('/:id')
-  @Authorized(UserRole.admin || UserRole.employee)
+  @Authorized([UserRole.admin, UserRole.employee])
   @HttpCode(204)
   async updateUser(@Param('id') user_id: ObjectID, @CurrentUser() user: User, @Body() body: any): Promise<boolean> {
-    const validId = zObjectId.parse(user_id)
+    const validId = new ObjectID(zObjectId.parse(user_id))
     const validBody = zUpdateAccountAdmin.parse(body)
-    if(validId == user._id.toString()){
-      if(!await updateMyAccount(user, validBody)){
-        throw new BadRequestError()
-      };
-    } else {
-      throw new BadRequestError("You can't do that")
+
+
+    const theUser = await getUserById(new ObjectID(user_id))
+    if(!theUser){
+      throw new BadRequestError("Wrong user id")
     }
+
+    if(user.role == UserRole.employee && theUser.role != UserRole.client){
+      throw new BadRequestError("Unable to update a non client account")
+    }
+
+    if(user.role == UserRole.admin && theUser.role == UserRole.admin){
+      throw new ForbiddenError("You can't update an admin Account")
+    }
+
+    if(!await updateAccountAdmin(validId, validBody)){
+      throw new BadRequestError()
+    };
     return true
   }
 
   @Delete('/:id')
   @HttpCode(204)
-  @Authorized()
+  @Authorized([UserRole.admin, UserRole.employee])
   async deleteUserById(@Param('id') user_id: ObjectID, @CurrentUser() user: User): Promise<boolean> {
     const validId = new ObjectID(zObjectId.parse(user_id))
-    if(user._id != validId && user.role != UserRole.admin){
-      throw new ForbiddenError("You can't do that")
+    
+    const theUser = await getUserById(new ObjectID(user_id))
+    if(!theUser){
+      throw new BadRequestError("Wrong user id")
+    }
+    
+    if(user.role == UserRole.employee && theUser.role != UserRole.client){
+      throw new ForbiddenError("You can't delete an admin/employee Account")
     }
 
-    if(user._id == user_id && user.role == UserRole.admin){
-      throw new ForbiddenError("You can't delete your account, since your admin")
+    if(user.role == UserRole.admin && theUser.role == UserRole.admin){
+      throw new ForbiddenError("You can't delete an admin Account")
     }
 
-    if(!await deleteUserById(user_id)){
+    if(!await deleteUserById(validId)){
       throw new BadRequestError("Bad Request")
     }
     return true

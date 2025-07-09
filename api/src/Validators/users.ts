@@ -14,3 +14,4 @@ export const zUpdateAccountAdmin = z.object({
 })
 
 export type UpdateAccountType = z.infer<typeof zUpdateAccount>
+export type UpdateAccountAdminType = z.infer<typeof zUpdateAccountAdmin>
