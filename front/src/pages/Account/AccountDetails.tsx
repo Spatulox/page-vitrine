@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import type { User } from "../../api/User";
+import { UserRole, type User } from "../../api/User";
 import { GetApi, PutApi, DeleteApi } from "../../api/Axios";
 import { UrlRoute } from "../../App";
+import { useAuth } from "../../components/AuthContext";
 
 export default function AccountDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+
+  const {me} = useAuth()
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -104,7 +108,7 @@ export default function AccountDetails() {
           <select name="role" value={form.role} onChange={handleChange}>
             <option value="client">Client</option>
             <option value="employee">Employé</option>
-            <option value="admin">Admin</option>
+            {me?.role == UserRole.admin && (<option value="admin">Admin</option>)}
           </select>
         </label>
         <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
