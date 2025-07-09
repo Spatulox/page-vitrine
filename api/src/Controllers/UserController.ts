@@ -1,6 +1,6 @@
 import { JsonController, Param, Body, Get, Post, Put, Delete, HeaderParam, Authorized, CurrentUser, Patch, InternalServerError, ForbiddenError, HttpCode, BadRequestError } from 'routing-controllers';
 import { FilledUser, User } from "../Models/UserModel"
-import { getAllUsers } from '../Services/users/usersAdmin';
+import { deleteUserById, getAllUsers } from '../Services/users/usersAdmin';
 import { zObjectId } from '../Validators/utils';
 import { deleteMyAccount, getUserById, updateMyAccount } from '../Services/users/usersPublic';
 import { UserRole } from '../DB_Schema/UserSchema';
@@ -38,6 +38,25 @@ export class AdminUserController {
     return true
   }
 
+  @Delete('/:id')
+  @HttpCode(204)
+  @Authorized()
+  async deleteUserById(@Param('id') user_id: ObjectID, @CurrentUser() user: User): Promise<boolean> {
+    const validId = new ObjectID(zObjectId.parse(user_id))
+    if(user._id != validId && user.role != UserRole.admin){
+      throw new ForbiddenError("You can't do that")
+    }
+
+    if(user._id == user_id && user.role == UserRole.admin){
+      throw new ForbiddenError("You can't delete your account, since your admin")
+    }
+
+    if(!await deleteUserById(user_id)){
+      throw new BadRequestError("Bad Request")
+    }
+    return true
+  }
+
 }
 
 @JsonController("/users")
@@ -68,13 +87,9 @@ export class UserController {
   @Delete('/:id')
   @HttpCode(204)
   @Authorized()
-  async deleteUserById(@Param('id') user_id: ObjectID, @CurrentUser() user: User): Promise<boolean> {
-    const validId = new ObjectID(zObjectId.parse(user_id))
-    if(user._id != validId && user.role != UserRole.admin){
-      throw new ForbiddenError("You can't do that")
-    }
+  async deleteUserById(@CurrentUser() user: User): Promise<boolean> {
 
-    if(user._id == user_id && user.role == UserRole.admin){
+    if(user.role == UserRole.admin){
       throw new ForbiddenError("You can't delete your account, since your admin")
     }
 

@@ -32,3 +32,8 @@ export async function getAllEmployee(): Promise<FilledUser[]> {
         .exec();
     return users.map(user => toUserObject(user)).filter(u => u !== null);
 }
+
+export async function deleteUserById(user_id: ObjectID): Promise<boolean>{
+    const result = await UserTable.deleteOne({_id: user_id}).exec()
+    return result.deletedCount > 0;
+}
