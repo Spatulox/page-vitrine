@@ -7,26 +7,32 @@ import Legal from './pages/Legal/Legal';
 import Contact from './pages/Contact/Contact';
 import Booking from './pages/Booking/Booking';
 import { Room, RoomDetails } from './pages/Escape/Rooms';
+import Account from './pages/Account/Account';
+import { AuthProvider } from './components/AuthContext';
 
 
-export const UrlRoute = {
-  Base: "/",
-  Accueil: "/accueil",
-  Sessions: "/sessions",
-  Legal: "/legal",
-  Contact: "/contact",
-  Booking: "/booking",
-  Rooms: "/rooms",
-} as const;
+
+export enum UrlRoute {
+  Base = "/",
+  Accueil = "/accueil",
+  Account = "/account",
+  Sessions = "/sessions",
+  Legal = "/legal",
+  Contact = "/contact",
+  Booking = "/booking",
+  Rooms = "/rooms",
+};
 
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
         <Header />
         <main className="container">
         <Routes>
           <Route path={UrlRoute.Base} element={<Accueil />} />
           <Route path={UrlRoute.Accueil} element={<Accueil />} />
+          <Route path={UrlRoute.Account} element={<Account />} />
           <Route path={UrlRoute.Sessions} element={<Sessions />} />
           <Route path={UrlRoute.Legal} element={<Legal />} />
           <Route path={UrlRoute.Contact} element={<Contact />} />
@@ -36,10 +42,13 @@ function App() {
           
           <Route path={UrlRoute.Rooms} element={<Room />} />
           <Route path={`${UrlRoute.Rooms}/:id`} element={<RoomDetails />} />
+
+
         </Routes>
         </main>
         <Footer />
     </BrowserRouter>
+    </AuthProvider>
   )
 }
 
