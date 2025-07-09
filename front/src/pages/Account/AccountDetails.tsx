@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import type { User } from "../../api/User";
 import { GetApi, PutApi, DeleteApi } from "../../api/Axios";
+import { UrlRoute } from "../../App";
 
 export default function AccountDetails() {
   const { id } = useParams<{ id: string }>();
@@ -45,7 +46,6 @@ export default function AccountDetails() {
   async function handleUpdate() {
     try {
       await PutApi(`/admin/users/${id}`, form);
-      alert("Utilisateur mis à jour !");
     } catch (e) {
       alert("Erreur lors de la mise à jour.");
     }
@@ -56,8 +56,7 @@ export default function AccountDetails() {
     if (!window.confirm("Supprimer cet utilisateur ?")) return;
     try {
       await DeleteApi(`/admin/users/${id}`);
-      alert("Utilisateur supprimé !");
-      navigate("/admin"); // ou la liste des users
+      navigate(UrlRoute.Users);
     } catch (e) {
       alert("Erreur lors de la suppression.");
     }
