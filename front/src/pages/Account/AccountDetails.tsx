@@ -51,7 +51,7 @@ export default function AccountDetails() {
     try {
       await PutApi(`/admin/users/${id}`, form);
     } catch (e) {
-      alert("Erreur lors de la mise à jour.");
+      console.log(e)
     }
   }
 
@@ -62,7 +62,7 @@ export default function AccountDetails() {
       await DeleteApi(`/admin/users/${id}`);
       navigate(UrlRoute.Users);
     } catch (e) {
-      alert("Erreur lors de la suppression.");
+      console.log(e)
     }
   }
 
@@ -103,16 +103,21 @@ export default function AccountDetails() {
             type="tel"
           />
         </label>
-        {me?.role == UserRole.admin && (
+        {me?.role == UserRole.admin ? (
           <label>
             Rôle :
-            <select name="role" value={form.role} onChange={handleChange}>
+            <select name="role" value={user.role} onChange={handleChange}>
               <option value="client">Client</option>
               <option value="employee">Employé</option>
                 <option value="admin">Admin</option>
                 </select>
           </label>
-        )}
+        ): (
+          <label>
+            Rôle : {user.role}
+          </label>
+        )
+        }
         <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
           <button style={{ background: "red", color: "white" }} onClick={handleDelete}>
             Supprimer l'utilisateur
