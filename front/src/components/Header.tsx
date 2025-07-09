@@ -1,16 +1,28 @@
-import { Link } from "react-router-dom"
+import { UrlRoute } from "../App";
+import { useAuth } from "./AuthContext";
+import { Link } from "react-router-dom";
 
-function Header(){
+function Header() {
+    const { isLogged, logout } = useAuth();
+
     return (
         <header>
             <nav>
-                <Link to="/">Accueil</Link> |{" "}
-                <Link to="/sessions">Sessions</Link> |{" "}
-                <Link to="/booking">Réservation</Link> |{" "}
-                <Link to="/contact">Contact</Link>
+                <div>
+                    <Link to={UrlRoute.Base}>Accueil</Link> |{" "}
+                    <Link to={UrlRoute.Sessions}>Sessions</Link> |{" "}
+                    <Link to={UrlRoute.Booking}>Réservation</Link> |{" "}
+                    <Link to={UrlRoute.Contact}>Contact</Link> |{" "}
+                    {isLogged ? (
+                        <Link to={""} onClick={logout}>Se déconnecter</Link>
+                    ) : (
+                        <Link to={UrlRoute.Account}>Compte</Link>
+                    )}
+                </div>
             </nav>
         </header>
-    )
+    );
 }
+
 
 export default Header
