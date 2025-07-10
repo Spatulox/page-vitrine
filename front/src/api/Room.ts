@@ -13,7 +13,7 @@ export type Room = {
 
 export type RoomSessions = {
     room: Room,
-    sessions: Sessions
+    sessions: Sessions[]
 }
 
 export type RoomSessionsEmpty = {

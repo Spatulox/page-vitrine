@@ -6,7 +6,7 @@ export default function Manage(){
     return <>
         <h1>Manage</h1>
         <button onClick={() => navigate(FrontRoute.Users)}>Gérer les utilisateurs</button>
-        <button onClick={() => navigate(FrontRoute.Sessions)}>Gérer les sessions</button>
+        <button onClick={() => navigate(FrontRoute.ManageSessions)}>Gérer les sessions</button>
         <button onClick={() => navigate(FrontRoute.Rooms)}>Gérer les Salles</button>
     </>
 }

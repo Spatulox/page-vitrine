@@ -99,21 +99,18 @@ export async function getAllSessionsByDate(param: GetRoomParam): Promise<RoomSes
     .populate("room_id")
     .exec();
 
-    // 2. Grouper les sessions par room_id
     const roomMap = new Map<string, { room: any, sessions: any[] }>();
     for (const session of sessions) {
-        // session.room_id est maintenant un objet Room grâce au populate
         const roomId = session.room_id._id.toString();
         if (!roomMap.has(roomId)) {
             roomMap.set(roomId, {
-                room: toRoomObject(session.room_id), // transforme en FilledRoom
+                room: toRoomObject(session.room_id),
                 sessions: []
             });
         }
         roomMap.get(roomId)!.sessions.push(toSessionsObject(session));
     }
 
-    // 3. Retourner le format demandé
     return Array.from(roomMap.values());
 }
 
