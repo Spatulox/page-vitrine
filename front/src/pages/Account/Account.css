@@ -1,0 +1,28 @@
+.account {
+    display: flex;
+    flex-direction: column;
+    gap: 12;
+    max-width: 400;
+}
+
+.account-button {
+    display: flex;
+    gap: 12;
+    margin-top: 16;
+}
+
+.account-button-white {
+    background: red;
+    color: white;
+}
+
+.account-button-red {
+    background: green;
+    color: white;
+}
+
+
+.account-message {
+    margin-top: 10;
+    color: blue;
+}

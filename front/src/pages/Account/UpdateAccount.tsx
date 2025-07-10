@@ -101,7 +101,7 @@ export default function UpdateMyAccount() {
   return (
     <div>
       <h1>Mon compte</h1>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 400 }}>
+      <div className="account">
         <label>
           Nom :
           <input
@@ -135,15 +135,15 @@ export default function UpdateMyAccount() {
         <label>
           Rôle : {user.role}
         </label>
-        <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-          <button style={{ background: "red", color: "white" }} onClick={handleDelete}>
+        <div className="account-button">
+          <button className="account-button-red" onClick={handleDelete}>
             Supprimer mon compte
           </button>
-          <button style={{ background: "green", color: "white" }} onClick={handleUpdate}>
+          <button className="account-button-white" onClick={handleUpdate}>
             Mettre à jour
           </button>
         </div>
-        {message && <div style={{ marginTop: 10, color: "blue" }}>{message}</div>}
+        {message && <div className="account-message">{message}</div>}
       </div>
     </div>
   );

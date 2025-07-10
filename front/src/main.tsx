@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./main.css"
 import "./pages/Sessions/Sessions.css"
 import "./pages/Contact/Contact.css"
+import "./pages/Account/Account.css"
 
 
 createRoot(document.getElementById('root')!).render(
