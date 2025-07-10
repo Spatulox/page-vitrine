@@ -1,4 +1,4 @@
-import { Room, RoomsCards } from "../Escape/Rooms";
+import { Room, RoomsCards } from "../Rooms/Rooms";
 
 function Accueil() {
 

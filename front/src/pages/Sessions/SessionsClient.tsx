@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { GetApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
 import type { Room, RoomSessionsEmpty } from "../../api/Room";
-import { Room as RoomComponent } from "../Escape/Rooms";
+import { Room as RoomComponent } from "../Rooms/Rooms";
 
 type SessionsClientProps = {
   date: string;

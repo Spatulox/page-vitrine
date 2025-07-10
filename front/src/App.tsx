@@ -6,7 +6,7 @@ import Sessions from './pages/Sessions/Sessions';
 import Legal from './pages/Legal/Legal';
 import Contact from './pages/Contact/Contact';
 import Booking from './pages/Booking/Booking';
-import { Room, RoomDetails } from './pages/Escape/Rooms';
+import { Room, RoomDetails } from './pages/Rooms/Rooms';
 import Account from './pages/Account/Account';
 import { AuthProvider } from './components/AuthContext';
 import UserDetailsAdmin from './pages/Users/UserDetailsAdmin';
@@ -14,6 +14,7 @@ import Users from './pages/Users/Users';
 import UpdateMyAccount from './pages/Account/UpdateAccount';
 import Manage from './pages/Manage/Manage';
 import ManageSessions from './pages/Sessions/ManageSessions';
+import { MenuManageRoom } from './pages/Rooms/ManageRooms';
 
 
 
