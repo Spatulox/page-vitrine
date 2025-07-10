@@ -1,0 +1,30 @@
+:root .dark {
+    --body-background: #0b0b0b;
+    --nav-background: #1a1a1a;
+    --input-background: #262626;
+    --container-background: #1a1a1a;
+
+    --text-color: #f2f2f2;
+    --text-shadow: #000;
+
+    --very-dark-orange: #A63A12;
+    --dark-orange: #D94711;
+    --orange: #ff6600;
+    --light-orange: #ff8533;
+}
+
+
+:root .light {
+    --body-background: #fafafa;           /* Fond très clair et neutre */
+    --nav-background: #f5f5f5;            /* Légèrement contrasté pour la navigation */
+    --input-background: #ffffff;          /* Fond d’input pur, pour la lisibilité */
+    --container-background: #f0f0f0;      /* Légère différence pour les conteneurs */
+
+    --text-color: #181818;                /* Texte très foncé pour un contraste optimal */
+    --text-shadow: #fff;                  /* Ombre claire pour un effet subtil */
+
+    --very-dark-orange: #FFB088;          /* Orange très pâle, doux pour le clair */
+    --dark-orange: #FFA366;               /* Orange doux, moins saturé */
+    --orange: #FF6600;                    /* Orange vif, reste identique pour garder l’identité */
+    --light-orange: #FFD8B0;              /* Orange très clair, lumineux */
+}
