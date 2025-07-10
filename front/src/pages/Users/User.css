@@ -1,0 +1,194 @@
+@import url(../../color.css);
+
+.display-user {
+    display: flex;
+    flex-direction: column;
+    gap: 12;
+    max-width: 400;
+}
+
+.popup-create-employee-account {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: rgb(32, 32, 32);
+  padding: 32px;
+  border-radius: 8px;
+  min-width: 350px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  color: var(--text-color);
+}
+
+.popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popup-submit {
+  background: green;
+  color: var(--text-color);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-message {
+  color: green;
+  margin-top: 8px;
+}
+
+.user-tabs-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.user-tabs-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.user-tab-btn {
+  padding: 8px 16px;
+  font-weight: normal;
+  background: var(--orange);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background 0.2s, border-bottom 0.2s, font-weight 0.2s;
+}
+
+.user-tab-btn.selected {
+  font-weight: bold;
+  background: var(--dark-orange);
+  border-bottom: 5px solid var(--light-orange);
+}
+
+.user-table {
+  margin-top: 16px;
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.user-table th,
+.user-table td {
+  padding: 8px;
+  border: 1px solid var(--orange);
+  text-align: left;
+}
+
+.user-table th {
+  font-weight: bold;
+}
+
+.user-table-empty {
+  text-align: center;
+  color: var(--dark-orange);
+  font-style: italic;
+}
+
+.user-details-btn {
+  background: var(--orange);
+  color: var(--text-color);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.user-details-btn:hover {
+  background: var(--dark-orange);
+}
+
+.user-details-container {
+  /*width: 100%;*/
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.user-details {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  background: var(--container-background);
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  color: var(--text-color);
+}
+
+.user-details label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+.user-details input,
+.user-details select {
+  margin-top: 4px;
+  padding: 6px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.user-details-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.user-delete-btn {
+  background: #d32f2f;
+  color: var(--text-color);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.user-delete-btn:hover {
+  background: #a31515;
+}
+
+.user-update-btn {
+  background: #388e3c;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.user-update-btn:hover {
+  background: #256d27;
+}

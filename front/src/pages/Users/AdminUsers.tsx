@@ -49,36 +49,21 @@ export default function AdminUsers() {
 
   return (
     <>
-        <button onClick={handleCreateEmployeeUsers}>Créer un compte employé</button>
-        <EmployeeUsers />
+      <button onClick={handleCreateEmployeeUsers}>Créer un compte employé</button>
+      <EmployeeUsers />
 
       {showPopup && (
-        <div className="popup-create-employee-account" style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(0,0,0,0.4)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 1000
-        }}>
-          <div style={{
-            background: "rgb(32, 32, 32)",
-            padding: 32,
-            borderRadius: 8,
-            minWidth: 350,
-            boxShadow: "0 2px 16px rgba(0,0,0,0.2)",
-            position: "relative"
-          }}>
+        <div className="popup-create-employee-account">
+          <div className="popup-content">
             <button
-              style={{ position: "absolute", top: 8, right: 8, fontSize: 18, background: "none", border: "none", cursor: "pointer", width: "50px" }}
+              className="popup-close"
               onClick={handleClosePopup}
               aria-label="Fermer"
             >
               ×
             </button>
             <h1>Nouvel compte Employé</h1>
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <form onSubmit={handleSubmit} className="popup-form">
               <label>
                 Nom :
                 <input name="name" value={form.name} onChange={handleChange} required />
@@ -98,10 +83,10 @@ export default function AdminUsers() {
               <label>
                 Rôle : <b>Employé</b>
               </label>
-              <button type="submit" style={{ background: "green", color: "white" }}>
+              <button type="submit" className="popup-submit">
                 Créer
               </button>
-              {message && <div style={{ color: "green" }}>{message}</div>}
+              {message && <div className="popup-message">{message}</div>}
             </form>
           </div>
         </div>

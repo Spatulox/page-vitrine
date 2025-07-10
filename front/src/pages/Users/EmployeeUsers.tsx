@@ -32,25 +32,18 @@ export default function EmployeeUsers(){
     },[])
 
     function handleViewDetails(user: User) {
-        navigate(`/${FrontRoute.Users}/${user._id}`);
+        navigate(`${FrontRoute.Users}/${user._id}`);
     }
 
     return (
-    <div>
+    <div className="user-tabs-container">
       {/* Onglets */}
-      <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+      <div className="user-tabs-bar">
         {TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key as keyof UsersByRole)}
-            style={{
-              padding: "8px 16px",
-              fontWeight: activeTab === tab.key ? "bold" : "normal",
-              background: activeTab === tab.key ? "#D94711" : "#D94711A8",
-              border: "1px solid #ccc",
-              borderBottom: activeTab === tab.key ? "2px solid #007bff" : "1px solid #ccc",
-              cursor: "pointer",
-            }}
+            className={`user-tab-btn${activeTab === tab.key ? " selected" : ""}`}
           >
             {tab.label}
           </button>
@@ -58,7 +51,7 @@ export default function EmployeeUsers(){
       </div>
 
       {/* Tableau */}
-      <table border={1} cellPadding={8} style={{ marginTop: 16, width: "100%" }}>
+      <table className="user-table">
         <thead>
           <tr>
             <th>Nom</th>
@@ -71,7 +64,9 @@ export default function EmployeeUsers(){
         <tbody>
           {users && users[activeTab] && users[activeTab].length === 0 ? (
             <tr>
-              <td colSpan={5}>Aucun utilisateur trouvé.</td>
+              <td colSpan={5} className="user-table-empty">
+                Aucun utilisateur trouvé.
+              </td>
             </tr>
           ) : (
             users &&
@@ -83,7 +78,7 @@ export default function EmployeeUsers(){
                 <td>{user.email}</td>
                 <td>{user.phone}</td>
                 <td>
-                  <button onClick={() => handleViewDetails(user)}>
+                  <button className="user-details-btn" onClick={() => handleViewDetails(user)}>
                     Voir détails
                   </button>
                 </td>
