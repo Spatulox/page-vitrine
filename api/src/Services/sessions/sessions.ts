@@ -24,6 +24,30 @@ function generateTimeSlots(date: Date): Date[] {
     return slots;
 }
 
+export async function getAllSessionsByDate(param: GetRoomParam): Promise<FilledRoom[]> {
+    const rooms = await RoomTable.find().exec();
+
+    const allRoomsWithEmptySessions = await Promise.all(
+        rooms.map(async room => {
+            const empty = await getEmptySessionsRoomById(room._id, param);
+            return { room, hasFree: empty.free_sessions.length > 0 };
+        })
+    );
+
+    const roomsWithFreeSessions = allRoomsWithEmptySessions
+        .filter(data => data.hasFree)
+        .map(data => {
+            const r = data.room.toObject ? data.room.toObject() : data.room;
+            return {
+                ...r,
+                _id: r._id.toString(),
+            };
+        });
+
+    return roomsWithFreeSessions;
+}
+
+
 export async function getEmptySessionsRoomById(room_id: ObjectID, param: GetRoomParam): Promise<RoomSessionsEmpty> {
     const dayStart = new Date(param.date);
     dayStart.setHours(0, 0, 0, 0);

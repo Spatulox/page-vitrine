@@ -4,7 +4,7 @@ import { ObjectID } from "../DB_Schema/connexion";
 import { zObjectId } from "../Validators/utils";
 import { getAllRooms, getRoomById } from "../Services/rooms/rooms";
 import { zGetRoomParams } from "../Validators/rooms";
-import { getEmptySessionsRoomById, getSessionsRoomById } from "../Services/sessions/sessions";
+import { getAllSessionsByDate, getEmptySessionsRoomById, getSessionsRoomById } from "../Services/sessions/sessions";
 import { RoomSessions, RoomSessionsEmpty } from "../Models/SessionsModel";
 
 @JsonController("/rooms")
@@ -12,6 +12,12 @@ export class RoomController {
   @Get('/')
   async getAllRoom(): Promise<FilledRoom[]> {
     return await getAllRooms()
+  }
+
+  @Get('/sessions')
+  async getAllRoomAvailaible(@QueryParams() param: any): Promise<FilledRoom[]> {
+    const validParam = zGetRoomParams.parse(param)
+    return await getAllSessionsByDate(validParam)
   }
 
   @Get('/:id')
