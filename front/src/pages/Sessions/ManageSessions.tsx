@@ -1,0 +1,58 @@
+// AppEmploye.tsx
+import { useEffect, useState } from "react";
+import SalleCalendarEmploye from "./SalleCalendarEmploye";
+import { GetApi } from "../../api/Axios";
+import { EndpointRoute } from "../../api/Endpoint";
+import type { RoomSessions } from "../../api/Room";
+
+export default function ManageSessions() {
+  const [sessions, setRoomSessions] = useState<RoomSessions[]>([]);
+  const [selectedDate, setSelectedDate] = useState(() => {
+      const today = new Date();
+      return today.toISOString().split('T')[0];
+  });
+
+  const handleDateChange = (e: any) => {
+      setSelectedDate(e.target.value);
+  };
+
+
+  useEffect(() => {
+    (async () => {
+      const param = {date : selectedDate}
+      const res = await GetApi(`${EndpointRoute.adminRoom}/sessions`, param)
+      setRoomSessions(res)
+    })()
+  }, [selectedDate])
+
+  function handleCancel(){
+
+  }
+
+  const handleVoirDetails = (reservation: any) => {
+    alert(
+      `Détails de la réservation :\nSalle : ${reservation.salleName}\nHeure : ${reservation.start} - ${reservation.end}\nTitre : ${reservation.title}\nDescription : ${reservation.description || "Aucune"}`
+    );
+  };
+
+  return (
+    <div>
+      <label>
+          Choisir une date :{" "}
+          <input
+              type="date"
+              value={selectedDate}
+              onChange={handleDateChange}
+              min={new Date().toUTCString().split('T')[0]}
+          />
+      </label>
+      <SalleCalendarEmploye
+        key={selectedDate}
+        reservations={sessions}
+        onCancel={handleCancel}
+        date={selectedDate}
+        onDetails={handleVoirDetails}
+      />
+    </div>
+  );
+};
