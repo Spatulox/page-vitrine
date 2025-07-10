@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { UserRole, type User } from "../../api/User";
 import { GetApi, PutApi, DeleteApi } from "../../api/Axios";
-import { UrlRoute } from "../../App";
+import { FrontRoute } from "../../App";
 import { useAuth } from "../../components/AuthContext";
 
 export default function UserDetails() {
@@ -41,7 +41,7 @@ export default function UserDetails() {
     })();
   }, [id, navigate]);
 
-  
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
@@ -58,7 +58,7 @@ export default function UserDetails() {
     if (!window.confirm("Supprimer cet utilisateur ?")) return;
     try {
       await DeleteApi(`/admin/users/${id}`);
-      navigate(UrlRoute.Users);
+      navigate(FrontRoute.Users);
     } catch (e) {
       console.log(e)
     }

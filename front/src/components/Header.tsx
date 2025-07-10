@@ -1,4 +1,4 @@
-import { UrlRoute } from "../App";
+import { FrontRoute } from "../App";
 import { useAuth } from "./AuthContext";
 import { Link } from "react-router-dom";
 import { useTheme } from "./Theme";
@@ -21,17 +21,17 @@ function Header() {
                     </select>
                 </div>
                 <div>
-                    <Link to={UrlRoute.Base}>Accueil</Link> |{" "}
-                    <Link to={UrlRoute.Sessions}>Sessions</Link> |{" "}
-                    <Link to={UrlRoute.Booking}>Réservation</Link> |{" "}
-                    <Link to={UrlRoute.Contact}>Contact</Link> |{" "}
+                    <Link to={FrontRoute.Base}>Accueil</Link> |{" "}
+                    <Link to={FrontRoute.Sessions}>Sessions</Link> |{" "}
+                    <Link to={FrontRoute.Booking}>Réservation</Link> |{" "}
+                    <Link to={FrontRoute.Contact}>Contact</Link> |{" "}
                     {isLogged ? (<>
-                        <Link to={UrlRoute.Account}>Compte</Link> |{" "}
-                        <Link to={UrlRoute.Manage}>Gérer</Link> |{" "}
+                        <Link to={FrontRoute.Account}>Compte</Link> |{" "}
+                        <Link to={FrontRoute.Manage}>Gérer</Link> |{" "}
                         <Link to={""} onClick={logout}>Se déconnecter</Link>
                         </>
                     ) : (
-                        <Link to={UrlRoute.Account}>Compte</Link>
+                        <Link to={FrontRoute.Account}>Compte</Link>
                     )}
                 </div>
             </nav>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DeleteApi, GetApi, PutApi } from "../../api/Axios";
 import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { UrlRoute } from "../../App";
+import { FrontRoute } from "../../App";
 import { EndpointRoute } from "../../api/Endpoint";
 
 async function fetchCurrentUser(): Promise<User> {
@@ -34,8 +34,8 @@ async function deleteMyAccountEndpoint(): Promise<boolean> {
         return false
     }
     try {
-        await DeleteApi(`/users/${me._id}`);
-        navigate(UrlRoute.Base);
+        await DeleteApi(`/${EndpointRoute.users}/${me._id}`);
+        navigate(FrontRoute.Base);
         return true
     } catch (e) {
         console.log(e)

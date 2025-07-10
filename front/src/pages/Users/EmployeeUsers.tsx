@@ -3,6 +3,7 @@ import type { User } from "../../api/User"
 import { GetApi } from "../../api/Axios"
 import { useNavigate } from "react-router-dom"
 import { EndpointRoute } from "../../api/Endpoint";
+import { FrontRoute } from "../../App";
 
 
 const TABS = [
@@ -31,7 +32,7 @@ export default function EmployeeUsers(){
     },[])
 
     function handleViewDetails(user: User) {
-        navigate(`/users/${user._id}`);
+        navigate(`/${FrontRoute.Users}/${user._id}`);
     }
 
     return (

@@ -4,7 +4,7 @@ import { UserRole, type User } from "../../api/User";
 import Loading from "../../components/loading";
 import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { UrlRoute } from "../../App";
+import { FrontRoute } from "../../App";
 import DisplayUser from "../Users/DisplayUser";
 import { EndpointRoute } from "../../api/Endpoint";
 
@@ -88,6 +88,6 @@ export default function Account() {
             user={me}
             me={me}
         />
-        <button onClick={() => navigate(UrlRoute.UpdateAccount)}>Mettre à jour mon compte</button>
+        <button onClick={() => navigate(FrontRoute.UpdateAccount)}>Mettre à jour mon compte</button>
     </>
 }

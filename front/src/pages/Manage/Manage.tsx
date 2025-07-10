@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom"
-import { UrlRoute } from "../../App"
+import { FrontRoute } from "../../App"
 
 export default function Manage(){
     const navigate = useNavigate()
     return <>
         <h1>Manage</h1>
-        <button onClick={() => navigate(UrlRoute.Users)}>Gérer les utilisateurs</button>
-        <button onClick={() => navigate(UrlRoute.Sessions)}>Gérer les sessions</button>
-        <button onClick={() => navigate(UrlRoute.Rooms)}>Gérer les Salles</button>
+        <button onClick={() => navigate(FrontRoute.Users)}>Gérer les utilisateurs</button>
+        <button onClick={() => navigate(FrontRoute.Sessions)}>Gérer les sessions</button>
+        <button onClick={() => navigate(FrontRoute.Rooms)}>Gérer les Salles</button>
     </>
 }

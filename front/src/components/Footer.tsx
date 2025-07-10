@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import { FrontRoute } from '../App';
 
 function Footer() {
     return (
@@ -8,9 +9,9 @@ function Footer() {
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"> Instagram</a>
         </p>
         <p>
-            <Link to="/sessions">Détails des sessions</Link> |{" "}
-            <Link to="/contact">Contact</Link> |{" "}
-            <Link to="/legal">Mentions légales</Link>
+            <Link to={FrontRoute.Sessions}>Détails des sessions</Link> |{" "}
+            <Link to={FrontRoute.Contact}>Contact</Link> |{" "}
+            <Link to={FrontRoute.Legal}>Mentions légales</Link>
         </p>
     </footer>
     )

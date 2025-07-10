@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { UrlRoute } from "../../App";
+import { FrontRoute } from "../../App";
 import type { Room } from "../../api/Room";
 import { GetApi } from "../../api/Axios";
 import Loading from "../../components/loading";
@@ -50,7 +50,7 @@ export function RoomDetails() {
     return (
       <div>
         <h1>Salle non trouvée</h1>
-        <Link to="/rooms">Retour à la liste</Link>
+        <Link to={FrontRoute.Rooms}>Retour à la liste</Link>
       </div>
     );
   }
@@ -85,8 +85,8 @@ export function RoomDetails() {
         )}
       </ul>
       <div>
-        <button onClick={() => navigate(`${UrlRoute.Booking}/${room._id}`)}>Réserver</button>
-        <Link to={UrlRoute.Rooms}>← Retour à la liste</Link>
+        <button onClick={() => navigate(`${FrontRoute.Booking}/${room._id}`)}>Réserver</button>
+        <Link to={FrontRoute.Rooms}>← Retour à la liste</Link>
       </div>
     </div>
   );
@@ -102,7 +102,7 @@ export function RoomsCards({ rooms }: { rooms: Room[] }) {
         <div className="cards" key={i}>
           {row.map((room) => (
             <Link
-              to={`${UrlRoute.Rooms}/${room._id}`}
+              to={`${FrontRoute.Rooms}/${room._id}`}
               className="card"
               key={room._id}
             >
