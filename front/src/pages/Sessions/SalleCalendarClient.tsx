@@ -36,8 +36,10 @@ export default function SalleCalendarClient({salleName, disponibilites, date, on
     <div>
       <h2>{salleName} – Disponibilités</h2>
       <FullCalendar
+        key={date}
         plugins={[timeGridPlugin, interactionPlugin]}
         initialView="timeGridDay"
+        initialDate={date}
         events={[...availableEvents]}
         eventClick={handleEventClick}
         headerToolbar={false}

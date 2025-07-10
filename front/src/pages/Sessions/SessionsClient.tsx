@@ -37,7 +37,7 @@ export default function SessionsClient({ date }: SessionsClientProps) {
       const rooms = await GetApi(EndpointRoute.rooms, param) as Room[]
       setListRooms(rooms)
     })()
-  }, [])
+  }, [date])
 
   if (!id) {
     return <RoomComponent date={date} />
@@ -55,6 +55,7 @@ export default function SessionsClient({ date }: SessionsClientProps) {
 
   return (
     <SalleCalendarClient
+      key={date}
       salleName={room.room}
       disponibilites={room.free_sessions}
       date={date}
