@@ -1,15 +1,17 @@
+@import url(../../color.css);
+
 .contact-container {
     max-width: 800px;
     margin: 40px auto;
     text-align: center;
-    color: #e8e8e8;
+    color: var(--text-color);
     padding: 20px;
-    background-color: #1a1a1a;
+    background-color: var(--container-background);
     border-radius: 10px;
 }
 
 .contact-container a {
-    color: #D94711;
+    color: var(--dark-orange);
     font-weight: bold;
     text-decoration: none;
 }
@@ -34,9 +36,9 @@
 input, textarea, select, button {
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #A63A12;
-    background-color: #262626;
-    color: #fff;
+    border: 1px solid var(--very-dark-orange);
+    background-color: var(--input-background);
+    color: var(--text-color);
 }
 
 textarea {
@@ -44,12 +46,12 @@ textarea {
 }
 
 button {
-    background-color: #D94711;
+    background-color: var(--dark-orange);
     font-weight: bold;
     border: none;
 }
 
 button:hover {
-    background-color: #A63A12;
+    background-color: var(--very-dark-orange);
     cursor: pointer;
 }
