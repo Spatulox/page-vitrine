@@ -31,6 +31,7 @@ export enum FrontRoute {
 
   Manage = "/manage",
   ManageSessions = `${FrontRoute.Sessions}/manage`,
+  ManageRooms = `${FrontRoute.Rooms}/manage`,
 
   Users = "/users",
 };
@@ -66,6 +67,7 @@ function App() {
 
           <Route path={`${FrontRoute.Manage}`} element={<Manage />} />
           <Route path={`${FrontRoute.ManageSessions}`} element={<ManageSessions />} />
+          <Route path={`${FrontRoute.ManageRooms}`} element={<MenuManageRoom />} />
 
 
         </Routes>
