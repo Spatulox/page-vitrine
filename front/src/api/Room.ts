@@ -1,3 +1,5 @@
+import type { Sessions } from "./Sessions"
+
 export type Room = {
     _id: string,
     name: string,
@@ -8,4 +10,14 @@ export type Room = {
     duration: number, /* In Minutes */
     participants: number,
     max_participants: number,
+}
+
+export type RoomSessions = {
+    room_id: string,
+    sessions: Sessions
+}
+
+export type RoomSessionsEmpty = {
+    room: string,
+    free_sessions: string[]
 }
