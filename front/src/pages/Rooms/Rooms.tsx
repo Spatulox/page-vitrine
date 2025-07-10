@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { FrontRoute } from "../../App";
 import type { Room } from "../../api/Room";
 import { GetApi } from "../../api/Axios";
@@ -23,7 +23,6 @@ export function Room({date}: Props) {
     (async () => {
       if(date){
         const res = await GetApi(EndpointRoute.rooms + "/sessions", {date});
-        console.log(res)
         setRooms(res);
       } else {
         const res = await GetApi(EndpointRoute.rooms, {date});
@@ -34,11 +33,14 @@ export function Room({date}: Props) {
 
   if (!rooms) return <Loading />;
 
-  return <RoomsCards rooms={rooms} />;
+  return <RoomsCards date={date} rooms={rooms} />;
 }
 
 export function RoomDetails() {
   const { id } = useParams<{ id: string }>();
+  
+  const [searchParams] = useSearchParams();
+  const date = searchParams.get("date");
   const [rooms, setRooms] = useState<Room[]>();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ export function RoomDetails() {
     return (
       <div>
         <h1>Salle non trouvée</h1>
-        <Link to={FrontRoute.Rooms}>Retour à la liste</Link>
+        <BackButton />
       </div>
     );
   }
@@ -89,14 +91,14 @@ export function RoomDetails() {
         )}
       </ul>
       <div>
-        <button onClick={() => navigate(`${FrontRoute.Booking}/${room._id}`)}>Réserver</button>
+        <button onClick={() => navigate(`${FrontRoute.Booking}/${room._id}?date=${date}`)}>Réserver</button>
         <BackButton/>
       </div>
     </div>
   );
 }
 
-export function RoomsCards({ rooms }: { rooms: Room[] }) {
+export function RoomsCards({ rooms, date }: { rooms: Room[], date?: string }) {
   const rows = chunkArray(rooms, 3);
 
   return (
@@ -105,7 +107,7 @@ export function RoomsCards({ rooms }: { rooms: Room[] }) {
         <div className="cards" key={i}>
           {row.map((room) => (
             <Link
-              to={`${FrontRoute.Rooms}/${room._id}`}
+              to={`${FrontRoute.Rooms}/${room._id}?date=${date}`}
               className="card"
               key={room._id}
             >
