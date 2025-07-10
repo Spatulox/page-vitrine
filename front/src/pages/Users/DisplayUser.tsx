@@ -7,9 +7,10 @@ type Props = {
 
 export default function DisplayUser({ user, me }: Props) {
   return (
-    <div>
+    <div className="user-details-container">
+    <div className="user-details">
       <h1>Détails de l'utilisateur</h1>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 400 }}>
+      <div className="display-user">
         <label>
           Nom : {user.name}
         </label>
@@ -26,6 +27,7 @@ export default function DisplayUser({ user, me }: Props) {
           Rôle : {user.role}
         </label>
       </div>
+    </div>
     </div>
   );
 }
