@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetApi, PostApi, UserIsLogged } from "../../api/Axios";
 import { UserRole, type User } from "../../api/User";
-import Loading from "../../components/loading";
+import Loading from "../../components/Loading";
 import AdminUsers from "./AdminUsers";
 import EmployeeUsers from "./EmployeeUsers";
 import { MyActiveBook, MyOldBook } from "../Booking/MyBooked";

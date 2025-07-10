@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { FrontRoute } from "../../App";
 import type { Room } from "../../api/Room";
 import { GetApi } from "../../api/Axios";
-import Loading from "../../components/loading";
+import Loading from "../../components/Loading";
 import { EndpointRoute } from "../../api/Endpoint";
 
 // Helper pour découper le tableau en lignes de 3

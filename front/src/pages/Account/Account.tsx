@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetApi, PostApi, UserIsLogged } from "../../api/Axios";
 import { UserRole, type User } from "../../api/User";
-import Loading from "../../components/loading";
+import Loading from "../../components/Loading";
 import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { FrontRoute } from "../../App";

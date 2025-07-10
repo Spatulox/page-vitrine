@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import type { Room } from "../../api/Room";
 import { GetApi } from "../../api/Axios";
-import Loading from "../../components/loading";
+import Loading from "../../components/Loading";
 import { EndpointRoute } from "../../api/Endpoint";
 
 export default function Booking() {
