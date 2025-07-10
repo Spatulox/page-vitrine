@@ -12,7 +12,7 @@ export async function getRoomById(id: ObjectID): Promise<FilledRoom> {
     return toRoomObject(room)
 }
 
-function toRoomObject(room: any): FilledRoom{
+export function toRoomObject(room: any): FilledRoom{
     const data: FilledRoom = {
         _id: room._id.toString(),
         name: room.name,
