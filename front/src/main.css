@@ -82,12 +82,12 @@ h1, h2 {
 
 .card:hover {
   transform: scale(1.03);
-  border-color: --light-orange;
+  border-color: var(--light-orange);
 }
 
 .card h3 {
   margin-bottom: 10px;
-  color: --light-orange;
+  color: var(--light-orange);
 }
 
 .card p {
@@ -118,7 +118,7 @@ button {
 }
 
 button:hover {
-  background-color: --light-orange;
+  background-color: var(--light-orange);
   cursor: pointer;
 }
 
