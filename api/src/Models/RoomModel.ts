@@ -8,7 +8,6 @@ export type Room = {
     price: number,
     estimated_duration: number,
     duration: number, /* In Minutes */
-    participants: number,
     max_participants: number,
 }
 

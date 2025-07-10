@@ -8,7 +8,6 @@ const RoomSchema = new Schema<Room>({
     price: {type: Number, required: true},
     estimated_duration: {type: Number, required: true},
     duration: {type: Number, required: true},
-    participants: {type: Number, required: true},
     max_participants: {type: Number, required: true},
 })
 

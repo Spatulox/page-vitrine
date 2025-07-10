@@ -81,11 +81,6 @@ export function RoomDetails() {
             <strong>Durée maximale :</strong> {room.duration} min
           </li>
         )}
-        {room.participants && (
-          <li>
-            <strong>Participants recommandés :</strong> {room.participants}
-          </li>
-        )}
         {room.max_participants && (
           <li>
             <strong>Participants maximum :</strong> {room.max_participants}

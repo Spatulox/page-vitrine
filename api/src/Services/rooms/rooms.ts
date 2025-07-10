@@ -21,7 +21,6 @@ export function toRoomObject(room: any): FilledRoom{
         price: room.price,
         estimated_duration: room.estimated_duration,
         duration: room.duration,
-        participants: room.participants,
         max_participants: room.max_participants,
     }
 
