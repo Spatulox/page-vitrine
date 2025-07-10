@@ -4,7 +4,7 @@ import { ObjectID } from "../DB_Schema/connexion";
 import { zObjectId } from "../Validators/utils";
 import { getAllRooms, getRoomById } from "../Services/rooms/rooms";
 import { zGetRoomParams } from "../Validators/rooms";
-import { getAllSessionsByDate, getEmptySessionsRoomById } from "../Services/sessions/sessions";
+import { getAllFreeSessionsByDate, getAllSessionsByDate, getEmptySessionsRoomById } from "../Services/sessions/sessions";
 import { RoomSessions, RoomSessionsEmpty } from "../Models/SessionsModel";
 import { UserRole } from "../DB_Schema/UserSchema";
 
@@ -17,11 +17,12 @@ export class AdminRoomController {
     return await getAllRooms()
   }
 
-  /*@Get('/sessions')
+  @Get('/sessions')
   @Authorized([UserRole.admin, UserRole.employee])
-  async getAllRoomAvailaible(@QueryParams() param: any): Promise<FilledRoom[]> {
-
-  }*/
+  async getAllRoomSessions(@QueryParams() param: any): Promise<RoomSessions[]> {
+    const validParam = zGetRoomParams.parse(param)
+    return await getAllSessionsByDate(validParam)
+  }
 }
 
 
@@ -35,7 +36,7 @@ export class RoomController {
   @Get('/sessions')
   async getAllRoomAvailaible(@QueryParams() param: any): Promise<FilledRoom[]> {
     const validParam = zGetRoomParams.parse(param)
-    return await getAllSessionsByDate(validParam)
+    return await getAllFreeSessionsByDate(validParam)
   }
 
   @Get('/:id')

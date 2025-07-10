@@ -13,7 +13,7 @@ export type Sessions = {
 export type FilledSessions = Omit<Sessions, "_id" | "room_id" | "user_id"> & {_id: string, room: FilledRoom, user: FilledUser | null};
 
 export type RoomSessions = {
-    room: Room,
+    room: FilledRoom,
     sessions: FilledSessions[]
 }
 

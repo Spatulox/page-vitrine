@@ -7,8 +7,6 @@ import { GetRoomParam } from "../../Validators/rooms";
 import { toRoomObject } from "../rooms/rooms";
 import { toUserObject } from "../users/usersPublic";
 
-
-// Génère tous les créneaux horaires possibles pour une journée
 function generateTimeSlots(date: Date): Date[] {
     const slots: Date[] = [];
     let current = new Date(date);
@@ -24,7 +22,7 @@ function generateTimeSlots(date: Date): Date[] {
     return slots;
 }
 
-export async function getAllSessionsByDate(param: GetRoomParam): Promise<FilledRoom[]> {
+export async function getAllFreeSessionsByDate(param: GetRoomParam): Promise<FilledRoom[]> {
     const rooms = await RoomTable.find().exec();
 
     const allRoomsWithEmptySessions = await Promise.all(
@@ -59,7 +57,6 @@ export async function getEmptySessionsRoomById(room_id: ObjectID, param: GetRoom
         throw new Error("Room not found");
     }
 
-    // 1. Récupérer toutes les sessions existantes pour la salle et la date
     const sessions = await SessionTable.find({
         room_id: room_id,
         start_time: {
@@ -68,10 +65,8 @@ export async function getEmptySessionsRoomById(room_id: ObjectID, param: GetRoom
         },
     }).exec();
 
-    // 2. Générer tous les créneaux horaires possibles
     const slots = generateTimeSlots(param.date);
 
-    // 3. Trouver les créneaux où aucune session n’existe
     const emptySlots: string[] = [];
     for (const slot of slots) {
         const exists = sessions.some(s =>
@@ -90,25 +85,36 @@ export async function getEmptySessionsRoomById(room_id: ObjectID, param: GetRoom
 
 
 
-/* FOR ADMIN PART */
-export async function getSessionsRoomById(room_id: ObjectID, param: GetRoomParam): Promise<RoomSessions> {
+export async function getAllSessionsByDate(param: GetRoomParam): Promise<RoomSessions[]> {
     const dayStart = new Date(param.date);
     dayStart.setHours(0, 0, 0, 0);
     const dayEnd = new Date(param.date);
     dayEnd.setHours(23, 59, 59, 999);
 
     const sessions = await SessionTable.find({
-        room_id: room_id,
-        start_time: {
-            $gte: dayStart,
-            $lt: dayEnd,
-        },
+        start_time: { $gte: dayStart, $lt: dayEnd }
     })
-    .populate("room_id")
+    .sort({ start_time: 1 })
     .populate("user_id")
+    .populate("room_id")
     .exec();
 
-    return sessionsToRoomObject(room_id, sessions);
+    // 2. Grouper les sessions par room_id
+    const roomMap = new Map<string, { room: any, sessions: any[] }>();
+    for (const session of sessions) {
+        // session.room_id est maintenant un objet Room grâce au populate
+        const roomId = session.room_id._id.toString();
+        if (!roomMap.has(roomId)) {
+            roomMap.set(roomId, {
+                room: toRoomObject(session.room_id), // transforme en FilledRoom
+                sessions: []
+            });
+        }
+        roomMap.get(roomId)!.sessions.push(toSessionsObject(session));
+    }
+
+    // 3. Retourner le format demandé
+    return Array.from(roomMap.values());
 }
 
 function sessionsToRoomObject(room_id: any, sessions: Sessions[]): RoomSessions {
