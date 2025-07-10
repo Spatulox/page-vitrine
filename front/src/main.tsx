@@ -6,6 +6,8 @@ import "./main.css"
 import "./pages/Sessions/Sessions.css"
 import "./pages/Contact/Contact.css"
 import "./pages/Account/Account.css"
+import "./pages/Users/User.css"
+
 
 
 createRoot(document.getElementById('root')!).render(
