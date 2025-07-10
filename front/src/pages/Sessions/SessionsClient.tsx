@@ -7,6 +7,7 @@ import { GetApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
 import type { Room, RoomSessionsEmpty } from "../../api/Room";
 import { Room as RoomComponent } from "../Rooms/Rooms";
+import ReservationModal from "../Booking/BookingModal";
 
 type SessionsClientProps = {
   date: string;
@@ -14,7 +15,8 @@ type SessionsClientProps = {
 
 export default function SessionsClient({ date }: SessionsClientProps) {
   const [room, setRoom] = useState<RoomSessionsEmpty | null>(null);
-  const [listRooms, setListRooms] = useState<Room[] | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState<{ start: string; end: string } | null>(null);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -30,15 +32,6 @@ export default function SessionsClient({ date }: SessionsClientProps) {
     })();
   }, [id, date]);
 
-  useEffect(() => {
-    if(!date) return
-    (async () => {
-      const param = { date };
-      const rooms = await GetApi(EndpointRoute.rooms, param) as Room[]
-      setListRooms(rooms)
-    })()
-  }, [date])
-
   if (!id) {
     return <>
       <p>Choisir une salle :</p>
@@ -51,12 +44,16 @@ export default function SessionsClient({ date }: SessionsClientProps) {
   }
 
   const handleReserver = (start: string, end: string) => {
-    const title = prompt("Votre nom pour la réservation ?");
-    if (!title) return;
-    alert("réservé !");
+    setSelectedSlot({ start, end });
+    setModalOpen(true);
   };
 
-  return (
+  const handleReserveConfirm = async (name: string) => {
+    setModalOpen(false);
+    alert("Réservé !");
+  };
+
+  return (<>
     <SalleCalendarClient
       key={date}
       salleName={room.room}
@@ -64,5 +61,13 @@ export default function SessionsClient({ date }: SessionsClientProps) {
       date={date}
       onReserver={handleReserver}
     />
+    <ReservationModal
+      open={modalOpen}
+      onClose={() => setModalOpen(false)}
+      onReserve={handleReserveConfirm}
+      start={selectedSlot?.start || ""}
+      end={selectedSlot?.end || ""}
+    />
+    </>
   );
 }

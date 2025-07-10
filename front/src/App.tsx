@@ -5,7 +5,6 @@ import Accueil from './pages/Accueil/Accueil';
 import Sessions from './pages/Sessions/Sessions';
 import Legal from './pages/Legal/Legal';
 import Contact from './pages/Contact/Contact';
-import Booking from './pages/Booking/Booking';
 import { Room, RoomDetails } from './pages/Rooms/Rooms';
 import Account from './pages/Account/Account';
 import { AuthProvider } from './components/AuthContext';
