@@ -4,6 +4,8 @@ import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { FrontRoute } from "../../App";
 import { EndpointRoute } from "../../api/Endpoint";
+import DetailsNormalUser from "../Users/DetailsNormalUser";
+import { UserRole } from "../../api/User";
 
 async function fetchCurrentUser(): Promise<User> {
   const res = await GetApi(EndpointRoute.me)
@@ -49,18 +51,28 @@ type User = {
   lastname: string;
   email: string;
   phone: string;
-  role: "client" | "employee" | "admin";
+  role: UserRole;
+};
+
+
+type FormUser = {
+  name: string;
+  lastname: string;
+  phone: string;
+  role: UserRole;
 };
 
 export default function UpdateMyAccount() {
   const [user, setUser] = useState<User | null>(null);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormUser>({
     name: "",
     lastname: "",
     phone: "",
+    role: UserRole.client,
   });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
+  const {me} = useAuth()
 
   useEffect(() => {
     fetchCurrentUser().then((u) => {
@@ -68,7 +80,8 @@ export default function UpdateMyAccount() {
       setForm({
         name: u.name || "",
         lastname: u.lastname || "",
-        phone: u.phone || ""
+        phone: u.phone || "",
+        role: u.role || "client",
       });
       setLoading(false);
     });
@@ -98,10 +111,23 @@ export default function UpdateMyAccount() {
   if (loading) return <div>Chargement...</div>;
   if (!user) return <div>Utilisateur non trouvé.</div>;
 
+
   return (
-    <div>
+    <DetailsNormalUser
+      user={user}
+      form={form}
+      me={me}
+      handleChange={handleChange}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />
+  );
+  /*
+  return (
+    <div className="user-details-container">
+    <div className="user-details">
       <h1>Mon compte</h1>
-      <div className="account">
+      <div className="">
         <label>
           Nom :
           <input
@@ -135,16 +161,17 @@ export default function UpdateMyAccount() {
         <label>
           Rôle : {user.role}
         </label>
-        <div className="account-button">
-          <button className="account-button-red" onClick={handleDelete}>
+        <div className="user-details-actions">
+          <button className="user-delete-btn" onClick={handleDelete}>
             Supprimer mon compte
           </button>
-          <button className="account-button-white" onClick={handleUpdate}>
+          <button className="user-update-btn" onClick={handleUpdate}>
             Mettre à jour
           </button>
         </div>
         {message && <div className="account-message">{message}</div>}
       </div>
     </div>
-  );
+    </div>
+  );*/
 }

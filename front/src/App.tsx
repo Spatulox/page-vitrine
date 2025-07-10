@@ -9,7 +9,7 @@ import Booking from './pages/Booking/Booking';
 import { Room, RoomDetails } from './pages/Escape/Rooms';
 import Account from './pages/Account/Account';
 import { AuthProvider } from './components/AuthContext';
-import UserDetails from './pages/Users/UserDetails';
+import UserDetailsAdmin from './pages/Users/UserDetailsAdmin';
 import Users from './pages/Users/Users';
 import UpdateMyAccount from './pages/Account/UpdateAccount';
 import Manage from './pages/Manage/Manage';
@@ -55,7 +55,7 @@ function App() {
 
 
           <Route path={`${FrontRoute.Users}`} element={<Users />} />
-          <Route path={`${FrontRoute.Users}/:id`} element={<UserDetails />} />
+          <Route path={`${FrontRoute.Users}/:id`} element={<UserDetailsAdmin />} />
           <Route path={`${FrontRoute.Users}/me`} element={<Account />} />
 
 
