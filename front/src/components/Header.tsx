@@ -22,8 +22,7 @@ function Header() {
                 </div>
                 <div>
                     <Link to={FrontRoute.Base}>Accueil</Link> |{" "}
-                    <Link to={FrontRoute.Sessions}>Sessions</Link> |{" "}
-                    <Link to={FrontRoute.Booking}>Réservation</Link> |{" "}
+                    <Link to={FrontRoute.Booking}>Réserver</Link> |{" "}
                     <Link to={FrontRoute.Contact}>Contact</Link> |{" "}
                     {isLogged ? (<>
                         <Link to={FrontRoute.Account}>Compte</Link> |{" "}
@@ -39,5 +38,6 @@ function Header() {
     );
 }
 
+//<Link to={FrontRoute.Booking}>Réservation</Link> |{" "}
 
 export default Header

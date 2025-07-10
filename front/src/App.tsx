@@ -51,14 +51,11 @@ function App() {
           <Route path={FrontRoute.Account} element={<Account />} />
           <Route path={FrontRoute.UpdateAccount} element={<UpdateMyAccount />} />
           
-          <Route path={FrontRoute.Booking} element={<Booking />} />
-          <Route path={`${FrontRoute.Booking}/:id`} element={<Booking />} />
+          <Route path={FrontRoute.Booking} element={<Sessions />} />
+          <Route path={`${FrontRoute.Booking}/:id`} element={<Sessions />} />
           
           <Route path={FrontRoute.Rooms} element={<Room />} />
           <Route path={`${FrontRoute.Rooms}/:id`} element={<RoomDetails />} />
-
-          <Route path={FrontRoute.Sessions} element={<Sessions />} />
-          <Route path={`${FrontRoute.Sessions}/:id`} element={<Sessions />} />
 
           <Route path={`${FrontRoute.Users}`} element={<Users />} />
           <Route path={`${FrontRoute.Users}/:id`} element={<UserDetailsAdmin />} />

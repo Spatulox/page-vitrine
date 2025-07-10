@@ -89,7 +89,7 @@ export function RoomDetails() {
         )}
       </ul>
       <div>
-        <button onClick={() => navigate(`${FrontRoute.Sessions}/${room._id}`)}>Réserver</button>
+        <button onClick={() => navigate(`${FrontRoute.Booking}/${room._id}`)}>Réserver</button>
         <BackButton/>
       </div>
     </div>

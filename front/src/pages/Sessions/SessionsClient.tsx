@@ -40,7 +40,10 @@ export default function SessionsClient({ date }: SessionsClientProps) {
   }, [date])
 
   if (!id) {
-    return <RoomComponent date={date} />
+    return <>
+      <p>Choisir une salle :</p>
+      <RoomComponent date={date} />
+    </>
   }
 
   if (!room) {
