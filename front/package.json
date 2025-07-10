@@ -11,6 +11,10 @@
     "start": "vite"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.18",
+    "@fullcalendar/interaction": "^6.1.18",
+    "@fullcalendar/react": "^6.1.18",
+    "@fullcalendar/timegrid": "^6.1.18",
     "axios": "^1.10.0",
     "bootstrap": "^5.3.6",
     "react": "^19.1.0",
