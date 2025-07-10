@@ -3,9 +3,10 @@ import { DeleteApi, GetApi, PutApi } from "../../api/Axios";
 import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { UrlRoute } from "../../App";
+import { EndpointRoute } from "../../api/Endpoint";
 
 async function fetchCurrentUser(): Promise<User> {
-  const res = await GetApi("/users/@me")
+  const res = await GetApi(EndpointRoute.me)
   return res
 }
 
@@ -16,7 +17,7 @@ async function updateMyAccountEndpoint(data: Partial<User>): Promise<boolean> {
         return false
     }
     try {
-        await PutApi(`/users/${me._id}`, data);
+        await PutApi(`/${EndpointRoute.users}/${me._id}`, data);
         return true
     } catch (e) {
         console.log(e)

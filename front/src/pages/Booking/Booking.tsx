@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import type { Room } from "../../api/Room";
 import { GetApi } from "../../api/Axios";
 import Loading from "../../components/loading";
+import { EndpointRoute } from "../../api/Endpoint";
 
 export default function Booking() {
   const { id } = useParams<{ id?: string }>();
@@ -28,13 +29,13 @@ export default function Booking() {
   useEffect(() => {
     if (id) {
       // On récupère uniquement la room demandée
-      GetApi(`/rooms/${id}`).then((room: Room) => {
+      GetApi(`/${EndpointRoute.rooms}/${id}`).then((room: Room) => {
         setSelectedRoom(room);
         setRoomId(room._id);
       });
     } else {
       // On récupère toutes les rooms
-      GetApi("/rooms").then((rooms: Room[]) => {
+      GetApi(EndpointRoute.rooms).then((rooms: Room[]) => {
         setRooms(rooms);
       });
     }

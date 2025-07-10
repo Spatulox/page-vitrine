@@ -1,6 +1,7 @@
 import { useState } from "react";
 import EmployeeUsers from "./EmployeeUsers";
 import { PostApi } from "../../api/Axios";
+import { EndpointRoute } from "../../api/Endpoint";
 
 export default function AdminUsers() {
   const [showPopup, setShowPopup] = useState(false);
@@ -37,7 +38,7 @@ export default function AdminUsers() {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    const res = await PostApi("/admin/users", form)
+    const res = await PostApi(EndpointRoute.adminUser, form)
     console.log(res)
     setMessage("Compte employé créé !");
     setTimeout(() => {

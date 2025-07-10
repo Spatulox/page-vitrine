@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import type { User } from "../../api/User"
 import { GetApi } from "../../api/Axios"
 import { useNavigate } from "react-router-dom"
+import { EndpointRoute } from "../../api/Endpoint";
 
 
 const TABS = [
@@ -23,7 +24,7 @@ export default function EmployeeUsers(){
 
     useEffect(() => {
         (async () => {
-            const res = await GetApi("/admin/users", {employee: "1", admin: "1", client: "1"})
+            const res = await GetApi(EndpointRoute.adminUser, {employee: "1", admin: "1", client: "1"})
             console.log(res)
             setUsers(res)
         })()

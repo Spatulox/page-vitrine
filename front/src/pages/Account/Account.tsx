@@ -6,6 +6,7 @@ import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { UrlRoute } from "../../App";
 import DisplayUser from "../Users/DisplayUser";
+import { EndpointRoute } from "../../api/Endpoint";
 
 export default function Account() {
     const [me, setMe] = useState<User | null>(null);
@@ -23,7 +24,7 @@ export default function Account() {
         (async () => {
             if (UserIsLogged()) {
                 try {
-                    const res = await GetApi("/users/@me");
+                    const res = await GetApi(EndpointRoute.me);
                     setMe(res);
                 } catch (e) {
                     setMe(null);
@@ -39,12 +40,12 @@ export default function Account() {
         setError(null);
         setLoading(true);
         try {
-            const res = await PostApi("/auth/login", { email, password });
+            const res = await PostApi(EndpointRoute.login, { email, password });
             // Stocke les tokens si l'API en renvoie
             if (res.accessToken) localStorage.setItem("accessToken", res.accessToken);
             if (res.refreshToken) localStorage.setItem("refreshToken", res.refreshToken);
             if(res.accessToken){
-                const user = await GetApi("/users/@me");
+                const user = await GetApi(EndpointRoute.me);
                 setMe(user);
                 login()
             }

@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { Deconnection, GetApi, UserIsLogged } from "../api/Axios";
 import type { User } from "../api/User";
+import { EndpointRoute } from "../api/Endpoint";
 
 // 1. Définis le type du contexte
 type AuthContextType = {
@@ -30,7 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshMe = async () => {
     try {
-      const res = await GetApi("/users/@me");
+      const res = await GetApi(EndpointRoute.me);
       setMe(res.data ?? null);
     } catch {
       setMe(null);

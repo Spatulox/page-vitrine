@@ -2,27 +2,20 @@ import { useEffect, useState } from "react";
 import { GetApi, PostApi, UserIsLogged } from "../../api/Axios";
 import { UserRole, type User } from "../../api/User";
 import Loading from "../../components/loading";
-import { useAuth } from "../../components/AuthContext";
 import AdminUsers from "./AdminUsers";
 import EmployeeUsers from "./EmployeeUsers";
 import { MyActiveBook, MyOldBook } from "../Booking/MyBooked";
+import { EndpointRoute } from "../../api/Endpoint";
 
 export default function Users() {
     const [me, setMe] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const {login} = useAuth()
-
-    // Champs du formulaire de login
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState<string | null>(null);
-
     useEffect(() => {
         (async () => {
             if (UserIsLogged()) {
                 try {
-                    const res = await GetApi("/users/@me");
+                    const res = await GetApi(EndpointRoute.me);
                     setMe(res);
                 } catch (e) {
                     setMe(null);

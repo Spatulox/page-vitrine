@@ -4,6 +4,7 @@ import { UrlRoute } from "../../App";
 import type { Room } from "../../api/Room";
 import { GetApi } from "../../api/Axios";
 import Loading from "../../components/loading";
+import { EndpointRoute } from "../../api/Endpoint";
 
 // Helper pour découper le tableau en lignes de 3
 const chunkArray = <T,>(arr: T[], size: number): T[][] =>
@@ -16,7 +17,7 @@ export function Room() {
   const [rooms, setRooms] = useState<Room[]>();
   useEffect(() => {
     (async () => {
-      const res = await GetApi("/rooms");
+      const res = await GetApi(EndpointRoute.rooms);
       setRooms(res);
     })();
   }, []);
@@ -35,7 +36,7 @@ export function RoomDetails() {
 
   useEffect(() => {
     (async () => {
-      const res = await GetApi("/rooms");
+      const res = await GetApi(EndpointRoute.rooms);
       setRooms(res);
       setLoading(false);
     })();
