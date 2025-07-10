@@ -6,28 +6,36 @@ import { GetApi } from "../../api/Axios";
 import Loading from "../../components/Loading";
 import { EndpointRoute } from "../../api/Endpoint";
 
-// Helper pour découper le tableau en lignes de 3
+type Props = {
+  date?: string
+}
+
+// Coupe tableau 3 lignes
 const chunkArray = <T,>(arr: T[], size: number): T[][] =>
   Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
     arr.slice(i * size, i * size + size)
   );
 
-// Composant principal de la page des rooms (liste)
-export function Room() {
+export function Room({date}: Props) {
   const [rooms, setRooms] = useState<Room[]>();
   useEffect(() => {
     (async () => {
-      const res = await GetApi(EndpointRoute.rooms);
-      setRooms(res);
+      if(date){
+        const res = await GetApi(EndpointRoute.rooms + "/sessions", {date});
+        console.log(res)
+        setRooms(res);
+      } else {
+        const res = await GetApi(EndpointRoute.rooms, {date});
+        setRooms(res);
+      }
     })();
-  }, []);
+  }, [date]);
 
   if (!rooms) return <Loading />;
 
   return <RoomsCards rooms={rooms} />;
 }
 
-// Détails d'une salle
 export function RoomDetails() {
   const { id } = useParams<{ id: string }>();
   const [rooms, setRooms] = useState<Room[]>();
@@ -92,7 +100,6 @@ export function RoomDetails() {
   );
 }
 
-// Affichage des cartes de rooms (reçoit rooms en props)
 export function RoomsCards({ rooms }: { rooms: Room[] }) {
   const rows = chunkArray(rooms, 3);
 

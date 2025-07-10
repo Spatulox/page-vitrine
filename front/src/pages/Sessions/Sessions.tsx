@@ -7,7 +7,7 @@ function Sessions() {
         return today.toISOString().split('T')[0];
     });
 
-    const handleDateChange = (e) => {
+    const handleDateChange = (e: any) => {
         setSelectedDate(e.target.value);
     };
 
