@@ -5,6 +5,7 @@ import type { Room } from "../../api/Room";
 import { GetApi } from "../../api/Axios";
 import Loading from "../../components/Loading";
 import { EndpointRoute } from "../../api/Endpoint";
+import BackButton from "../../components/BackButton";
 
 type Props = {
   date?: string
@@ -89,7 +90,7 @@ export function RoomDetails() {
       </ul>
       <div>
         <button onClick={() => navigate(`${FrontRoute.Sessions}/${room._id}`)}>Réserver</button>
-        <Link to={FrontRoute.Rooms}>← Retour à la liste</Link>
+        <BackButton/>
       </div>
     </div>
   );
