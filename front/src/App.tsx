@@ -13,6 +13,7 @@ import UserDetailsAdmin from './pages/Users/UserDetailsAdmin';
 import Users from './pages/Users/Users';
 import UpdateMyAccount from './pages/Account/UpdateAccount';
 import Manage from './pages/Manage/Manage';
+import ManageSessions from './pages/Sessions/ManageSessions';
 
 
 
@@ -20,7 +21,7 @@ export enum FrontRoute {
   Base = "/",
   Accueil = "/accueil",
   Account = "/account",
-  UpdateAccount = "/account/update",
+  UpdateAccount = `${FrontRoute.Account}/update`,
   Sessions = "/sessions",
   Legal = "/legal",
   Contact = "/contact",
@@ -28,6 +29,7 @@ export enum FrontRoute {
   Rooms = "/rooms",
 
   Manage = "/manage",
+  ManageSessions = `${FrontRoute.Sessions}/manage`,
 
   Users = "/users",
 };
@@ -41,11 +43,11 @@ function App() {
         <Routes>
           <Route path={FrontRoute.Base} element={<Accueil />} />
           <Route path={FrontRoute.Accueil} element={<Accueil />} />
-          <Route path={FrontRoute.Account} element={<Account />} />
-          <Route path={FrontRoute.UpdateAccount} element={<UpdateMyAccount />} />
-          <Route path={FrontRoute.Sessions} element={<Sessions />} />
           <Route path={FrontRoute.Legal} element={<Legal />} />
           <Route path={FrontRoute.Contact} element={<Contact />} />
+          
+          <Route path={FrontRoute.Account} element={<Account />} />
+          <Route path={FrontRoute.UpdateAccount} element={<UpdateMyAccount />} />
           
           <Route path={FrontRoute.Booking} element={<Booking />} />
           <Route path={`${FrontRoute.Booking}/:id`} element={<Booking />} />
@@ -53,6 +55,8 @@ function App() {
           <Route path={FrontRoute.Rooms} element={<Room />} />
           <Route path={`${FrontRoute.Rooms}/:id`} element={<RoomDetails />} />
 
+          <Route path={FrontRoute.Sessions} element={<Sessions />} />
+          <Route path={`${FrontRoute.Sessions}/:id`} element={<Sessions />} />
 
           <Route path={`${FrontRoute.Users}`} element={<Users />} />
           <Route path={`${FrontRoute.Users}/:id`} element={<UserDetailsAdmin />} />
@@ -60,6 +64,7 @@ function App() {
 
 
           <Route path={`${FrontRoute.Manage}`} element={<Manage />} />
+          <Route path={`${FrontRoute.ManageSessions}`} element={<ManageSessions />} />
 
 
         </Routes>
