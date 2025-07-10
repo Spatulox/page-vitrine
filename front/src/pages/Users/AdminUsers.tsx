@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EmployeeUsers from "./EmployeeUsers";
 import { PostApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
+import { useAuth } from "../../components/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { UserRole } from "../../api/User";
+import { FrontRoute } from "../../App";
 
 export default function AdminUsers() {
   const [showPopup, setShowPopup] = useState(false);
@@ -13,6 +17,16 @@ export default function AdminUsers() {
     role: "employee",
   });
   const [message, setMessage] = useState("");
+  const {me} = useAuth()
+  const navigate = useNavigate()
+
+
+  useEffect(() => {
+      if(me?.role != UserRole.admin && me?.role != UserRole.employee){
+          navigate(FrontRoute.Accueil)
+          return
+      }
+    }, [me])
 
   function handleCreateEmployeeUsers() {
     setShowPopup(true);

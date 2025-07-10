@@ -4,6 +4,10 @@ import SalleCalendarEmploye from "./SalleCalendarEmploye";
 import { GetApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
 import type { RoomSessions } from "../../api/Room";
+import { useAuth } from "../../components/AuthContext";
+import { UserRole } from "../../api/User";
+import { useNavigate } from "react-router-dom";
+import { FrontRoute } from "../../App";
 
 export default function ManageSessions() {
   const [sessions, setRoomSessions] = useState<RoomSessions[]>([]);
@@ -11,6 +15,16 @@ export default function ManageSessions() {
       const today = new Date();
       return today.toISOString().split('T')[0];
   });
+  const navigate = useNavigate()
+
+  const {me} = useAuth()
+
+  useEffect(() => {
+    if(me?.role != UserRole.admin && me?.role != UserRole.employee){
+        navigate(FrontRoute.Accueil)
+        return
+    }
+  }, [me])
 
   const handleDateChange = (e: any) => {
       setSelectedDate(e.target.value);
