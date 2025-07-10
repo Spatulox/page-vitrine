@@ -12,7 +12,7 @@ export class NewsletterSender {
   private fromEmail: string;
 
   constructor(username: string | null = null) {
-    this.username = username || "CopainQuartier";
+    this.username = username || "La Maison Horrifique";
     this.fromEmail = "eatnowesgi@gmail.com";
     this.transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
