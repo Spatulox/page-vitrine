@@ -1,5 +1,5 @@
 import { ObjectID } from "../DB_Schema/connexion"
-import { FilledRoom } from "./RoomModel";
+import { FilledRoom, Room } from "./RoomModel";
 import { FilledUser } from "./UserModel";
 
 export type Sessions = {
@@ -13,7 +13,7 @@ export type Sessions = {
 export type FilledSessions = Omit<Sessions, "_id" | "room_id" | "user_id"> & {_id: string, room: FilledRoom, user: FilledUser | null};
 
 export type RoomSessions = {
-    room_id: string,
+    room: Room,
     sessions: FilledSessions[]
 }
 

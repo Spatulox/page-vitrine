@@ -111,9 +111,9 @@ export async function getSessionsRoomById(room_id: ObjectID, param: GetRoomParam
     return sessionsToRoomObject(room_id, sessions);
 }
 
-function sessionsToRoomObject(room_id: ObjectID, sessions: Sessions[]): RoomSessions {
+function sessionsToRoomObject(room_id: any, sessions: Sessions[]): RoomSessions {
     return {
-        room_id: room_id.toString(),
+        room: room_id ? toRoomObject(room_id) : room_id.toString(),
         sessions: sessions.map(toSessionsObject),
     };
 }

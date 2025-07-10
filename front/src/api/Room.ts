@@ -12,7 +12,7 @@ export type Room = {
 }
 
 export type RoomSessions = {
-    room_id: string,
+    room: Room,
     sessions: Sessions
 }
 

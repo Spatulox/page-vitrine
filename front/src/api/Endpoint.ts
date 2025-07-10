@@ -9,6 +9,7 @@ export enum EndpointRoute {
     me = "/users/@me",
 
     /* ROOMS */
+    adminRoom = "/admin/rooms",
     rooms = "/rooms"
 
 }

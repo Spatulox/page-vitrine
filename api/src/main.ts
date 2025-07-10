@@ -7,7 +7,7 @@ import { ErrorHandler } from './Middleware/error-handling';
 import { authMiddleware, getCurrentUser } from './Middleware/auth';
 import { parse } from 'url';
 import { AuthController } from './Controllers/AuthController';
-import { RoomController } from './Controllers/RoomController';
+import { AdminRoomController, RoomController } from './Controllers/RoomController';
 
 async function main(){
   await connectDB()
@@ -25,6 +25,7 @@ async function main(){
     },
     controllers: [
       AdminUserController,
+      AdminRoomController,
 
       AuthController,
       RoomController,
