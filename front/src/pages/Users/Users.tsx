@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { GetApi, PostApi, UserIsLogged } from "../../api/Axios";
+import { GetApi, UserIsLogged } from "../../api/Axios";
 import { UserRole, type User } from "../../api/User";
 import Loading from "../../components/Loading";
 import AdminUsers from "./AdminUsers";
 import EmployeeUsers from "./EmployeeUsers";
-import { MyActiveBook, MyOldBook } from "../Booking/MyBooked";
+import { MySessions } from "../Booking/MyBooked";
 import { EndpointRoute } from "../../api/Endpoint";
 
 export default function Users() {
@@ -38,8 +38,7 @@ export default function Users() {
                 <p><strong>Nom :</strong> {me.name}</p>
                 <p><strong>Email :</strong> {me.email}</p>
                 <p><strong>Téléphone :</strong> {me.phone}</p>
-                <MyActiveBook/>
-                <MyOldBook/>
+                <MySessions/>
             </div>
         );
     }

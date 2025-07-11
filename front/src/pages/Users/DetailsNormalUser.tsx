@@ -1,5 +1,6 @@
 import React from "react";
 import { type User, UserRole } from "../../api/User";
+import BackButton from "../../components/BackButton";
 
 type DetailsNormalUserProps = {
   user: User;
@@ -79,6 +80,7 @@ const DetailsNormalUser: React.FC<DetailsNormalUserProps> = ({
         </button>
       </div>
     </div>
+    <BackButton/>
   </div>
 );
 

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FrontRoute } from "../../App";
 import DisplayUser from "../Users/DisplayUser";
 import { EndpointRoute } from "../../api/Endpoint";
+import { MySessions } from "../Booking/MyBooked";
 
 interface AccountLoginProps {
   onSuccess?: (userData: User | null) => void;
@@ -96,5 +97,6 @@ export default function Account({onSuccess}: AccountLoginProps) {
             me={me}
         />
         <button onClick={() => navigate(FrontRoute.UpdateAccount)}>Mettre à jour mon compte</button>
+        <MySessions />
     </>
 }
