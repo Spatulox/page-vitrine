@@ -88,6 +88,17 @@ export async function bookASessions(user: User, params: BookSessionsParam): Prom
         throw new ForbiddenError('Une session existe déjà à ce créneau dans cette salle.');
     }
 
+    const alreadyBook = await SessionTable.findOne(
+        {
+            user_id: user._id,
+            start_time: params.start_time
+        }
+    )
+    
+    if(alreadyBook){
+        throw new ForbiddenError("Vous avez déjà réservé une autre salle à cette date et heure")
+    }
+
     await SessionTable.create({
         room_id: params.room_id,
         user_id: user._id,
