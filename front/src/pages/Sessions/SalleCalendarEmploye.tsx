@@ -31,7 +31,6 @@ export default function SalleCalendarEmploye({
     }
   });
 
-  console.log(reservations)
   // Aplatir toutes les sessions pour générer les events
   const events: EventInput[] = reservations.flatMap((r) =>
   Array.isArray(r.sessions)

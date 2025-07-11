@@ -45,7 +45,13 @@ export default function ManageSessions() {
 
   const handleVoirDetails = (reservation: DetailsReservation) => {
     alert(
-      `Détails de la réservation :\nSalle : ${reservation.room.name}\nHeure : ${new Date(reservation.start_time).toLocaleString()}\nDuration : ${reservation.room.duration}\nDescription : ${reservation.room.description || "Aucune"}`
+      `Détails de la réservation :
+Salle : ${reservation.room.name}
+Nom : Mr/Mme ${reservation.user.lastname},
+Participants: ${reservation.participants}
+Début : ${new Date(reservation.start_time).toLocaleString()}
+Duration : ${reservation.room.duration} minutes
+Description : ${reservation.room.description || "Aucune"}`
     );
   };
   return (

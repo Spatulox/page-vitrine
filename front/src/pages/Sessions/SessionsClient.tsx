@@ -7,7 +7,8 @@ import { GetApi, PostApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
 import type { Room, RoomSessionsEmpty } from "../../api/Room";
 import { Room as RoomComponent } from "../Rooms/Rooms";
-import ReservationModal from "../Booking/BookingModal";
+import ReservationModal, { type ClientReserveType } from "../Booking/BookingModal";
+import { DateProfileGenerator } from "@fullcalendar/core/internal";
 
 type SessionsClientProps = {
   date: string;
@@ -49,7 +50,7 @@ export default function SessionsClient({ date }: SessionsClientProps) {
     setModalOpen(true);
   };
 
-  const handleReserveConfirm = async (data: { user_id: string, start_time: any, end: any }) => {
+  const handleReserveConfirm = async (data: ClientReserveType) => {
 
     try {
       const dataTSend = {
@@ -74,6 +75,7 @@ export default function SessionsClient({ date }: SessionsClientProps) {
     />
     <ReservationModal
       open={modalOpen}
+      room={room.room}
       onClose={() => setModalOpen(false)}
       onReserve={handleReserveConfirm}
       start={selectedSlot?.start || ""}
