@@ -14,12 +14,15 @@ export async function getAllRoomsAdmin(): Promise<FilledRoom[]>{
 }
 
 export async function getRoomById(id: ObjectID): Promise<FilledRoom> {
-    const room = await RoomTable.find(
+    const room = await RoomTable.findOne(
         {
             _id: id,
             visible: true,
         }
     )
+    if (!room) {
+        throw new Error("Salle introuvable");
+    }
     return toRoomObject(room)
 }
 
@@ -70,7 +73,7 @@ export async function deleteRoom(id: ObjectID): Promise<boolean> {
 
 export function toRoomObject(room: any): FilledRoom{
     const data: FilledRoom = {
-        _id: room._id.toString(),
+        _id: String(room._id),
         name: room.name,
         description: room.description,
         long_description: room.long_description,
