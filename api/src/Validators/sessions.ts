@@ -4,7 +4,7 @@ import { zObjectId } from "./utils"
 export const zBookSessions = z.object({
     start_time: z.coerce.date(),
     room_id: zObjectId,
-
+    user_id: zObjectId,
 })
 
 

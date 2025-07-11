@@ -7,7 +7,7 @@ import { zObjectId } from "../Validators/utils";
 import { zBookSessions } from "../Validators/sessions";
 
 @JsonController("/sessions")
-export class RoomController {
+export class SessionsController {
   @Get('/')
   @Authorized()
   async getMyCurrentBook(@CurrentUser() user: User): Promise<RoomSessions[]> {
