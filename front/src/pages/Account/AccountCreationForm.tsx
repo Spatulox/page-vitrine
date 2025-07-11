@@ -1,8 +1,20 @@
 import React, { useState } from "react";
+import type { User } from "../../api/User";
+import { GetApi, PostApi } from "../../api/Axios";
+import { EndpointRoute } from "../../api/Endpoint";
+import { useAuth } from "../../components/AuthContext";
 
 interface AccountCreationFormProps {
-  onSuccess?: (userData: any) => void; // À adapter selon ton besoin
+  onSuccess?: (userData: User | null) => void;
   onClose?: () => void;
+}
+
+type UserInfo = {
+  name: string,
+  lastname: string,
+  email: string,
+  phone: string,
+  password: string
 }
 
 export default function AccountCreationForm({
@@ -10,30 +22,38 @@ export default function AccountCreationForm({
   onClose,
 }: AccountCreationFormProps) {
   const [name, setName] = useState("");
-  const [prenom, setPrenom] = useState("");
+  const [lastname, setPrenom] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const {me, login} = useAuth()
 
-  // Simule la création de compte (à remplacer par ton appel API)
-  const createAccount = async (user: any) => {
-    // Exemple d'appel API: await fetch('/api/register', { ... })
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email === "existant@mail.com") reject("Email déjà utilisé !");
-        else resolve({ id: 123, ...user });
-      }, 1200);
-    });
-  };
+  async function createAccount(user: UserInfo): Promise<User | null>{
+    try {
+        let res = await PostApi(`${EndpointRoute.register}`, user)
+        if (res.accessToken) localStorage.setItem("accessToken", res.accessToken);
+        if (res.refreshToken) localStorage.setItem("refreshToken", res.refreshToken);
+        if(res.accessToken){
+            await login()
+            return me
+        }
+        return null
+        res = await GetApi(EndpointRoute.me)
+        return res
+    } catch (e: any) {
+        setError("Identifiants invalides");
+        return null
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     // Validation simple
-    if (!name || !prenom || !email || !phone || !password) {
+    if (!name || !lastname || !email || !phone || !password) {
       setError("Merci de remplir tous les champs.");
       return;
     }
@@ -42,15 +62,17 @@ export default function AccountCreationForm({
 
     try {
       // Création du compte
-      const user: any = await createAccount({
+      const user: User | null = await createAccount({
         name,
-        prenom,
+        lastname,
         email,
         phone,
         password,
       });
 
-      onSuccess(user);
+      if(onSuccess){
+        onSuccess(user);
+      }
 
       // Nettoyage des champs
       setName("");
@@ -65,7 +87,8 @@ export default function AccountCreationForm({
     }
   };
 
-  return (
+  return (<>
+  <h1>Créer un compte</h1>
     <form onSubmit={handleSubmit}>
       <input
         type="text"
@@ -77,7 +100,7 @@ export default function AccountCreationForm({
       <input
         type="text"
         placeholder="Prénom"
-        value={prenom}
+        value={lastname}
         onChange={e => setPrenom(e.target.value)}
       />
       <input
@@ -108,5 +131,6 @@ export default function AccountCreationForm({
         </button>
       </div>
     </form>
+    </>
   );
 }
