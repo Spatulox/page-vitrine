@@ -32,7 +32,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshMe = async () => {
     try {
       const res = await GetApi(EndpointRoute.me);
-      setMe(res.data ?? null);
+      if(JSON.stringify(res) !== JSON.stringify(me)){
+        setMe(res);
+      }
     } catch {
       setMe(null);
     }
