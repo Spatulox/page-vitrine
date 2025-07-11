@@ -8,12 +8,18 @@ import { BookSessionsParam } from "../../Validators/sessions";
 import { getRoomById, toRoomObject } from "../rooms/rooms";
 import { generateTimeSlots, toSessionsObject } from "./room_sessions";
 import { NewsletterSender } from "../../Utils/mailer";
+import { toUserObject } from "../users/usersPublic";
 
 
-export async function getSessionsByUser(user: User, current?: boolean): Promise<RoomSessions[]> {
+export async function getFilledSessionsByUser(user: User, current?: boolean): Promise<FilledSessions[]> {
     const filter: any = { user_id: user._id };
-    if (current) {
-        filter.start_time = { $gte: new Date() };
+
+    const now = new Date();
+
+    if (current === true) {
+        filter.start_time = { $gte: now };
+    } else if (current === false) {
+        filter.start_time = { $lt: now };
     }
 
     const sessions = await SessionTable.find(filter)
@@ -21,27 +27,17 @@ export async function getSessionsByUser(user: User, current?: boolean): Promise<
         .populate('user_id')
         .exec();
 
-    const roomMap: Map<string, FilledSessions[]> = new Map();
+    const filledSessions: FilledSessions[] = sessions.map((session: any) => ({
+        _id: session._id.toString(),
+        start_time: session.start_time,
+        participants: session.participants,
+        room: toRoomObject(session.room_id),
+        user: session.user_id ? toUserObject(session.user_id) : null,
+    }));
 
-    sessions.forEach((session: any) => {
-        const roomId = session.room_id._id.toString();
-        if (!roomMap.has(roomId)) {
-            roomMap.set(roomId, []);
-        }
-        roomMap.get(roomId)!.push(toSessionsObject(session));
-    });
-
-    const result: RoomSessions[] = [];
-    for (const [roomId, filledSessions] of roomMap.entries()) {
-        const room = toRoomObject(sessions.find(s => s.room_id._id.toString() === roomId)!.room_id);
-        result.push({
-            room,
-            sessions: filledSessions
-        });
-    }
-
-    return result;
+    return filledSessions;
 }
+
 
 export async function getSessionsByID(id: ObjectID, user: User): Promise<FilledSessions | null>{
 
