@@ -135,13 +135,14 @@ export async function DeleteApi(url: string, body?: object, param?: object) {
 export function Deconnection() {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
+  localStorage.setItem("user", "{}");
 }
 
 
 function popup(msg: string) {
   alert(msg);
 }
-function objectToQueryString(params) {
+function objectToQueryString(params?: object) {
   if (!params) return '';
   return (
     '?' +

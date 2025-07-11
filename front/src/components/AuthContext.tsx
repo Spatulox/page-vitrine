@@ -27,12 +27,17 @@ const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLogged, setIsLogged] = useState(UserIsLogged());
-  const [me, setMe] = useState<User | null>(null);
+  const [me, setMe] = useState<User | null>(
+    JSON.parse(localStorage.getItem("user") || "{}") || {}
+);
+
 
   const refreshMe = async () => {
     try {
       const res = await GetApi(EndpointRoute.me);
       if(JSON.stringify(res) !== JSON.stringify(me)){
+        console.log("meeeeeeee")
+        localStorage.setItem("user", JSON.stringify(res));
         setMe(res);
       }
     } catch {

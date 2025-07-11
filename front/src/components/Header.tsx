@@ -2,9 +2,10 @@ import { FrontRoute } from "../App";
 import { useAuth } from "./AuthContext";
 import { Link } from "react-router-dom";
 import { useTheme } from "./Theme";
+import { UserRole } from "../api/User";
 
 function Header() {
-    const { isLogged, logout } = useAuth();
+    const { isLogged, logout, me } = useAuth();
     const [theme, setTheme] = useTheme() // Unused here, but it run in the background once imported, so we need to import it here
 
     return (
@@ -24,10 +25,15 @@ function Header() {
                     <Link to={FrontRoute.Base}>Accueil</Link> |{" "}
                     <Link to={FrontRoute.Booking}>Réserver</Link> |{" "}
                     <Link to={FrontRoute.Contact}>Contact</Link> |{" "}
-                    {isLogged ? (<>
-                        <Link to={FrontRoute.Account}>Compte</Link> |{" "}
-                        <Link to={FrontRoute.Manage}>Gérer</Link> |{" "}
-                        <Link to={""} onClick={logout}>Se déconnecter</Link>
+                    {isLogged ? (
+                        <>
+                            <Link to={FrontRoute.Account}>Compte</Link> |{" "}
+                            {me?.role !== UserRole.client && (
+                                <>
+                                <Link to={FrontRoute.Manage}>Gérer</Link> |{" "}
+                                </>
+                            )}
+                            <Link to={""} onClick={logout}>Se déconnecter</Link>
                         </>
                     ) : (
                         <Link to={FrontRoute.Account}>Compte</Link>
