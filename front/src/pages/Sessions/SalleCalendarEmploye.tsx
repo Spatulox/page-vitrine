@@ -65,9 +65,6 @@ export default function SalleCalendarEmploye({
     if (!foundReservation) return;
 
     onDetails({ ...foundReservation });
-    if (window.confirm("Annuler cette réservation ?")) {
-      onCancel(sessionId);
-    }
   };
   return (
     <div>
