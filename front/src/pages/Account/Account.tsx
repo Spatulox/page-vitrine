@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetApi, PostApi, UserIsLogged } from "../../api/Axios";
-import { UserRole, type User } from "../../api/User";
+import { type User } from "../../api/User";
 import Loading from "../../components/Loading";
 import { useAuth } from "../../components/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,11 @@ import { FrontRoute } from "../../App";
 import DisplayUser from "../Users/DisplayUser";
 import { EndpointRoute } from "../../api/Endpoint";
 
-export default function Account() {
+interface AccountLoginProps {
+  onSuccess?: (userData: User | null) => void;
+}
+
+export default function Account({onSuccess}: AccountLoginProps) {
     const [me, setMe] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate()
@@ -47,7 +51,10 @@ export default function Account() {
             if(res.accessToken){
                 const user = await GetApi(EndpointRoute.me);
                 setMe(user);
-                login()
+                await login()
+                if(onSuccess){
+                    onSuccess(user)
+                }
             }
         } catch (e: any) {
             setError("Identifiants invalides");
