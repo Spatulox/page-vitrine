@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshMe = async () => {
     try {
       const res = await GetApi(EndpointRoute.me);
-      if(JSON.stringify(res) !== JSON.stringify(me)){
+      if(me && JSON.stringify(res) !== JSON.stringify(me)){
         console.log("meeeeeeee")
         localStorage.setItem("user", JSON.stringify(res));
         setMe(res);
