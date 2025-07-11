@@ -4,7 +4,7 @@ import { ObjectID } from "../DB_Schema/connexion";
 import { zObjectId } from "../Validators/utils";
 import { getAllRooms, getRoomById } from "../Services/rooms/rooms";
 import { zGetRoomParams } from "../Validators/rooms";
-import { getAllFreeSessionsByDate, getAllSessionsByDate, getEmptySessionsRoomById } from "../Services/sessions/sessions";
+import { getAllFreeSessionsByDate, getAllSessionsByDate, getEmptySessionsRoomById } from "../Services/sessions/room_sessions";
 import { RoomSessions, RoomSessionsEmpty } from "../Models/SessionsModel";
 import { UserRole } from "../DB_Schema/UserSchema";
 
