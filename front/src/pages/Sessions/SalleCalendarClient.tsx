@@ -2,26 +2,27 @@ import FullCalendar from "@fullcalendar/react";
 import { type EventInput } from "@fullcalendar/core";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import type { Room } from "../../api/Room";
 
 type Props = {
-  salleName: string;
+  room: Room;
   disponibilites: string[];
   date: string;
   onReserver: (start: string, end: string) => void;
 };
 
-function addOneHourFifteen(startIso: string): string {
+function addRoomDuration(startIso: string, duration: number): string {
   const start = new Date(startIso);
-  const end = new Date(start.getTime() + 60 * 60 * 1000);
+  const end = new Date(start.getTime() + duration * 60 * 1000);
   return end.toISOString();
 }
 
-export default function SalleCalendarClient({salleName, disponibilites, date, onReserver}: Props) {
+export default function SalleCalendarClient({room, disponibilites, date, onReserver}: Props) {
   const availableEvents: EventInput[] = disponibilites.map((iso, idx) => ({
     id: `dispo-${idx}`,
     title: "Disponible",
     start: iso,
-    end: addOneHourFifteen(iso),
+    end: addRoomDuration(iso, room.duration),
     color: "#b2f2bb",
     editable: false,
   }));
@@ -34,7 +35,7 @@ export default function SalleCalendarClient({salleName, disponibilites, date, on
 
   return (
     <div>
-      <h2>{salleName} – Disponibilités</h2>
+      <h2>{room.name} – Disponibilités</h2>
       <FullCalendar
         key={date}
         plugins={[timeGridPlugin, interactionPlugin]}
