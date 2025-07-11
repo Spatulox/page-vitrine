@@ -114,6 +114,7 @@ export function RoomsCards({ rooms, date }: { rooms: Room[], date?: string }) {
               <h3>{room.name}</h3>
               <p>{room.description}</p>
               <p><strong>Temps estimé : </strong>{room.estimated_duration} minutes</p>
+              <p><strong>Temps maximum : </strong>{room.duration} minutes</p>
               <p>
                 <strong>Tarif :</strong> {room.price}€/joueur
               </p>

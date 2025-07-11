@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SalleCalendarClient from "./SalleCalendarClient";
 import Loading from "../../components/Loading";
 import { useParams } from "react-router-dom";
-import { GetApi } from "../../api/Axios";
+import { GetApi, PostApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
 import type { Room, RoomSessionsEmpty } from "../../api/Room";
 import { Room as RoomComponent } from "../Rooms/Rooms";
@@ -17,6 +17,7 @@ export default function SessionsClient({ date }: SessionsClientProps) {
   const [room, setRoom] = useState<RoomSessionsEmpty | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<{ start: string; end: string } | null>(null);
+  const [refresh, setRefresh] = useState(0)
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function SessionsClient({ date }: SessionsClientProps) {
         console.error(error);
       }
     })();
-  }, [id, date]);
+  }, [id, date, refresh]);
 
   if (!id) {
     return <>
@@ -48,15 +49,25 @@ export default function SessionsClient({ date }: SessionsClientProps) {
     setModalOpen(true);
   };
 
-  const handleReserveConfirm = async (name: string) => {
-    setModalOpen(false);
-    alert("Réservé !");
-  };
+  const handleReserveConfirm = async (data: { user_id: string, start_time: any, end: any }) => {
 
+    try {
+      const dataTSend = {
+        ...data,
+        room_id: room.room._id
+      }
+      await PostApi(`${EndpointRoute.book}`, dataTSend)
+    } catch (error) {
+      console.error(error)
+    }
+
+    setModalOpen(false);
+    setRefresh(r => r+1)
+  };
   return (<>
     <SalleCalendarClient
       key={date}
-      salleName={room.room}
+      room={room.room}
       disponibilites={room.free_sessions}
       date={date}
       onReserver={handleReserver}

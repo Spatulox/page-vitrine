@@ -11,6 +11,8 @@ export enum EndpointRoute {
 
     /* ROOMS */
     adminRoom = "/admin/rooms",
-    rooms = "/rooms"
+    rooms = "/rooms",
 
+    /* BOOK SESSION */
+    book = "/sessions",
 }

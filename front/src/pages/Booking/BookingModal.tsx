@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Booking.css";
 import { useAuth } from "../../components/AuthContext";
 import AccountCreationForm from "../Account/AccountCreationForm";
-import { GetApi, PostApi } from "../../api/Axios";
-import { EndpointRoute } from "../../api/Endpoint";
-import { useNavigate } from "react-router-dom";
 import Account from "../Account/Account";
+import type { User } from "../../api/User";
+import { GetApi } from "../../api/Axios";
+import { EndpointRoute } from "../../api/Endpoint";
 
 interface ReservationModalProps {
   open: boolean;
@@ -22,52 +22,62 @@ export default function ReservationModal({
   start,
   end,
 }: ReservationModalProps) {
-  const [name, setName] = useState("");
-  const [prenom, setPrenom] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
   const { me, isLogged } = useAuth();
-  const navigate = useNavigate()
+  const [showCreation, setShowCreation] = useState(false);
+  const [pendingAccount, setPendingAccount] = useState(false);
+  const [user, setUser] = useState<User | null>()
+
+  useEffect(() => {
+    (async () => {
+      if (pendingAccount && isLogged) {
+        try {
+          const res = await GetApi(EndpointRoute.me) 
+          setUser(res)
+          setShowCreation(false);
+          setPendingAccount(false);
+        } catch (error) {
+          setUser(null)
+        }
+      }
+    })()
+  }, [pendingAccount, isLogged, me]);
+
+  useEffect(() => {
+    (async () => {
+      if (isLogged) {
+        try {
+          const res = await GetApi(EndpointRoute.me) 
+          setUser(res)
+        } catch (error) {
+          setUser(null)
+        }
+      }
+    })()
+  }, []);
 
   if (!open) return null;
 
+  console.log(isLogged, user?._id)
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isLogged) {
-      onReserve({ userId: me?._id, start, end });
-    } else {
-      if (
-        !name.trim() ||
-        !prenom.trim() ||
-        !email.trim() ||
-        !phone.trim() ||
-        !password.trim()
-      ) {
-        alert("Merci de remplir tous les champs.");
-        return;
-      }
-      // Tu pourras appeler ici ton API pour créer le compte puis réserver
-      onReserve({ name, prenom, email, phone, password, start, end });
+    if (isLogged && user?._id) {
+      onReserve({ user_id: user?._id, start_time: start, end });
     }
-    setName("");
-    setPrenom("");
-    setEmail("");
-    setPhone("");
-    setPassword("");
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal">
         <h2>Réserver la salle</h2>
-        <p>
-          Créneau : <b>{start}</b> à <b>{end}</b>
-        </p>
-        {isLogged ? (
+        <ul>
+          <li>Créneau : <b>{(new Date(start)).toLocaleString()}</b> à <b>{(new Date(end)).toLocaleString()}</b></li>
+          <li>Nom : <b>{user?.name} {user?.lastname}</b></li>
+        </ul>
+        {isLogged && user?._id ? (
           <form onSubmit={handleSubmit}>
             <p>
-              Confirmer la réservation pour <b>{me?.name} {me?.lastname}</b> ?
+              Confirmer la réservation ?
             </p>
             <div className="modal-actions">
               <button className="modal-btn" type="submit">
@@ -78,15 +88,24 @@ export default function ReservationModal({
               </button>
             </div>
           </form>
-        ) : (<div>
-                <p>Veuillez vous connecter avant de réserver</p>
-                <Account />
-                <AccountCreationForm
-                onSuccess={(user) => ({})}
-                onClose={() => ({})}
-                />
-              </div>
+        ) : (
+          <div>
+            <p>Veuillez vous connecter avant de réserver</p>
+            {!showCreation ? (
+              <Account
+                onSuccess={() => setPendingAccount(true)}
+              />
+            ) : (
+              <AccountCreationForm
+                onSuccess={() => setPendingAccount(true)}
+                onClose={() => setShowCreation(false)}
+              />
             )}
+            <button onClick={() => setShowCreation((prev) => !prev)}>
+              {showCreation ? "Se connecter" : "Créer un compte"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
