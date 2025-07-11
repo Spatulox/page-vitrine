@@ -18,6 +18,6 @@ export type RoomSessions = {
 }
 
 export type RoomSessionsEmpty = {
-    room: string,
+    room: FilledRoom,
     free_sessions: string[]
 }

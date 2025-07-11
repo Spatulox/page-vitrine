@@ -1,134 +1,114 @@
+import { BadRequestError, ForbiddenError, InternalServerError } from "routing-controllers";
 import { ObjectID } from "../../DB_Schema/connexion";
-import { RoomTable } from "../../DB_Schema/RoomSchema";
 import { SessionTable } from "../../DB_Schema/SessionsSchema";
-import { FilledRoom } from "../../Models/RoomModel";
-import { FilledSessions, RoomSessions, RoomSessionsEmpty, Sessions } from "../../Models/SessionsModel";
-import { GetRoomParam } from "../../Validators/rooms";
-import { toRoomObject } from "../rooms/rooms";
-import { toUserObject } from "../users/usersPublic";
-
-function generateTimeSlots(date: Date): Date[] {
-    const slots: Date[] = [];
-    let current = new Date(date);
-    current.setHours(9, 0, 0, 0); // 9h00
-
-    const end = new Date(date);
-    end.setHours(23, 0, 0, 0); // 23h00
-
-    while (current <= end) {
-        slots.push(new Date(current));
-        current = new Date(current.getTime() + 75 * 60 * 1000); // +1h15
-    }
-    return slots;
-}
-
-export async function getAllFreeSessionsByDate(param: GetRoomParam): Promise<FilledRoom[]> {
-    const rooms = await RoomTable.find().exec();
-
-    const allRoomsWithEmptySessions = await Promise.all(
-        rooms.map(async room => {
-            const empty = await getEmptySessionsRoomById(room._id, param);
-            return { room, hasFree: empty.free_sessions.length > 0 };
-        })
-    );
-
-    const roomsWithFreeSessions = allRoomsWithEmptySessions
-        .filter(data => data.hasFree)
-        .map(data => {
-            const r = data.room.toObject ? data.room.toObject() : data.room;
-            return {
-                ...r,
-                _id: r._id.toString(),
-            };
-        });
-
-    return roomsWithFreeSessions;
-}
+import { UserRole } from "../../DB_Schema/UserSchema";
+import { FilledSessions, RoomSessions } from "../../Models/SessionsModel";
+import { User } from "../../Models/UserModel";
+import { BookSessionsParam } from "../../Validators/sessions";
+import { getRoomById, toRoomObject } from "../rooms/rooms";
+import { generateTimeSlots, toSessionsObject } from "./room_sessions";
 
 
-export async function getEmptySessionsRoomById(room_id: ObjectID, param: GetRoomParam): Promise<RoomSessionsEmpty> {
-    const dayStart = new Date(param.date);
-    dayStart.setHours(0, 0, 0, 0);
-    const dayEnd = new Date(param.date);
-    dayEnd.setHours(23, 59, 59, 999);
-
-    const room = await RoomTable.findById(room_id).exec();
-    if (!room) {
-        throw new Error("Room not found");
+export async function getSessionsByUser(user: User, current?: boolean): Promise<RoomSessions[]> {
+    const filter: any = { user_id: user._id };
+    if (current) {
+        filter.start_time = { $gte: new Date() };
     }
 
-    const sessions = await SessionTable.find({
-        room_id: room_id,
-        start_time: {
-            $gte: dayStart,
-            $lt: dayEnd,
-        },
-    }).exec();
+    const sessions = await SessionTable.find(filter)
+        .populate('room_id')
+        .populate('user_id')
+        .exec();
 
-    const slots = generateTimeSlots(param.date);
+    const roomMap: Map<string, FilledSessions[]> = new Map();
 
-    const emptySlots: string[] = [];
-    for (const slot of slots) {
-        const exists = sessions.some(s =>
-            Math.abs(new Date(s.start_time).getTime() - slot.getTime()) < 1000 // tolérance 1 seconde
-        );
-        if (!exists) {
-            emptySlots.push(slot.toISOString());
-        }
-    }
-
-    return {
-        room: room.name,
-        free_sessions: emptySlots,
-    };
-}
-
-
-
-export async function getAllSessionsByDate(param: GetRoomParam): Promise<RoomSessions[]> {
-    const dayStart = new Date(param.date);
-    dayStart.setHours(0, 0, 0, 0);
-    const dayEnd = new Date(param.date);
-    dayEnd.setHours(23, 59, 59, 999);
-
-    const sessions = await SessionTable.find({
-        start_time: { $gte: dayStart, $lt: dayEnd }
-    })
-    .sort({ start_time: 1 })
-    .populate("user_id")
-    .populate("room_id")
-    .exec();
-
-    const roomMap = new Map<string, { room: any, sessions: any[] }>();
-    for (const session of sessions) {
+    sessions.forEach((session: any) => {
         const roomId = session.room_id._id.toString();
         if (!roomMap.has(roomId)) {
-            roomMap.set(roomId, {
-                room: toRoomObject(session.room_id),
-                sessions: []
-            });
+            roomMap.set(roomId, []);
         }
-        roomMap.get(roomId)!.sessions.push(toSessionsObject(session));
+        roomMap.get(roomId)!.push(toSessionsObject(session));
+    });
+
+    const result: RoomSessions[] = [];
+    for (const [roomId, filledSessions] of roomMap.entries()) {
+        const room = toRoomObject(sessions.find(s => s.room_id._id.toString() === roomId)!.room_id);
+        result.push({
+            room,
+            sessions: filledSessions
+        });
     }
 
-    return Array.from(roomMap.values());
+    return result;
 }
 
-function sessionsToRoomObject(room_id: any, sessions: Sessions[]): RoomSessions {
-    return {
-        room: room_id ? toRoomObject(room_id) : room_id.toString(),
-        sessions: sessions.map(toSessionsObject),
-    };
-}
+export async function getSessionsByID(id: ObjectID, user: User): Promise<FilledSessions | null>{
 
+    const filter: Record<string, any> = { _id: id };
 
-
-export function toSessionsObject(obj: any): FilledSessions{
-    return {
-        _id: obj._id.toString(),
-        room: toRoomObject(obj.room_id),
-        user: obj.user_id ? toUserObject(obj.user_id) : null,
-        start_time: obj.start_time.toString(),
-        participants: obj.participants,
+    if (user.role === UserRole.client) {
+        filter.user_id = user._id;
     }
+
+    const session = await SessionTable.findOne(filter)
+        .populate('room_id')
+        .populate('user_id')
+        .exec();
+
+    if (!session) return null;
+    return toSessionsObject(session);
+}
+
+
+export async function bookASessions(user: User, params: BookSessionsParam): Promise<boolean> {
+
+    const room = await getRoomById(new ObjectID(params.room_id))
+
+
+    const date = new Date(params.start_time);
+    date.setHours(0, 0, 0, 0);
+    const validSlots = generateTimeSlots(date, room.duration);
+    const isValidSlot = validSlots.some(slot =>
+        slot.getTime() === new Date(params.start_time).getTime()
+    );
+
+    if (!isValidSlot) {
+        throw new BadRequestError(`L'heure demandée ne correspond à aucun créneau valide : ${validSlots.join(" | ")}`);
+    }
+
+    const existingSession = await SessionTable.findOne({
+        room_id: params.room_id,
+        start_time: params.start_time,
+    });
+
+    if (existingSession) {
+        throw new ForbiddenError('Une session existe déjà à ce créneau dans cette salle.');
+    }
+
+    await SessionTable.create({
+        room_id: params.room_id,
+        user_id: user._id,
+        start_time: params.start_time,
+    });
+
+    return true;
+}
+
+export async function deleteASessions(user: User, session_id: ObjectID): Promise<boolean> {
+  const session = await SessionTable.findById(session_id);
+
+  if (!session) {
+    throw new BadRequestError('Session introuvable.');
+  }
+
+  const isOwner = session.user_id.toString() === user._id.toString();
+  const isAdmin = user.role !== UserRole.client;
+
+  if (!isOwner && !isAdmin) {
+    throw new InternalServerError("Vous n'êtes pas autorisé à supprimer cette session.");
+  }
+
+  await SessionTable.deleteOne({ _id: session_id });
+
+  return true;
 }
