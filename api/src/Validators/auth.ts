@@ -18,7 +18,6 @@ export const zRegisterParams = z.object({
 		/^\d{10}$/,
 		"Numéro de téléphone invalide"
 	  ),
-	address: z.string().min(5, "Adresse trop courte"),
 	lastname: z.string(),
 	name: z.string(),
 });

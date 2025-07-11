@@ -43,8 +43,6 @@ async function saveUser(params: RegisterParams, file: Express.Multer.File) {
       phone: params.phone,
       lastname: params.lastname,
       name: params.name,
-      address: params.address,
-      image_link: file ? file.path : null,
     });
     return user;
   } catch (e: any) {
