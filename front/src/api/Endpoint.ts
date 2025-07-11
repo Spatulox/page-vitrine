@@ -1,6 +1,7 @@
 export enum EndpointRoute {
     /* AUTH */
     login = "/auth/login",
+    register = "/auth/register",
     
     
     /* USERS */
