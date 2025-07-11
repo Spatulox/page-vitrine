@@ -99,6 +99,10 @@
   margin-top: 0;
 }
 
+.modal label {
+  width: 100%;
+}
+
 .modal input[type="text"] {
   width: 100%;
   padding: 0.5rem;

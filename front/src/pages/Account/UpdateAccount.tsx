@@ -6,6 +6,7 @@ import { FrontRoute } from "../../App";
 import { EndpointRoute } from "../../api/Endpoint";
 import DetailsNormalUser from "../Users/DetailsNormalUser";
 import { UserRole } from "../../api/User";
+import BackButton from "../../components/BackButton";
 
 async function fetchCurrentUser(): Promise<User> {
   const res = await GetApi(EndpointRoute.me)
@@ -112,15 +113,17 @@ export default function UpdateMyAccount() {
   if (!user) return <div>Utilisateur non trouvé.</div>;
 
 
-  return (
-    <DetailsNormalUser
-      user={user}
-      form={form}
-      me={me}
-      handleChange={handleChange}
-      handleUpdate={handleUpdate}
-      handleDelete={handleDelete}
-    />
+  return (<div style={{display: "block"}}>
+      <DetailsNormalUser
+        user={user}
+        form={form}
+        me={me}
+        handleChange={handleChange}
+        handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
+      />
+      <BackButton />
+      </div>
   );
   /*
   return (
