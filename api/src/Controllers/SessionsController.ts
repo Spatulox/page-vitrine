@@ -1,4 +1,4 @@
-import { Authorized, Body, CurrentUser, Delete, Get, HttpCode, JsonController, Param, Post } from "routing-controllers";
+import { Authorized, Body, CurrentUser, Delete, Get, HttpCode, JsonController, Param, Post, Put } from "routing-controllers";
 import { User } from "../Models/UserModel";
 import { bookASessions, deleteASessions, getSessionsByID, getSessionsByUser } from "../Services/sessions/sessions";
 import { FilledSessions, RoomSessions } from "../Models/SessionsModel";

@@ -7,6 +7,7 @@ import { User } from "../../Models/UserModel";
 import { BookSessionsParam } from "../../Validators/sessions";
 import { getRoomById, toRoomObject } from "../rooms/rooms";
 import { generateTimeSlots, toSessionsObject } from "./room_sessions";
+import { NewsletterSender } from "../../Utils/mailer";
 
 
 export async function getSessionsByUser(user: User, current?: boolean): Promise<RoomSessions[]> {
@@ -125,5 +126,8 @@ export async function deleteASessions(user: User, session_id: ObjectID): Promise
 
   await SessionTable.deleteOne({ _id: session_id });
 
+  const newsletter = new NewsletterSender()
+  console.log(await newsletter.sendNewsletter("Annulation de votre réservation", "<p>L'équipe de modération à annuler votre réservation</p>", [user.email]))
+  
   return true;
 }
