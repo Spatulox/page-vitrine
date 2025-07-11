@@ -7,8 +7,8 @@ export const zGetRoomParams = z.object({
 
 export const zCreateRoomParams = z.object({
     name: z.string().min(3),
-    description: z.string(),
-    long_description: z.string(),
+    description: z.string().min(3),
+    long_description: z.string().min(3),
     price: z.coerce.number().positive().min(0),
     estimated_duration: z.coerce.number().min(1),
     duration: z.coerce.number().min(1),

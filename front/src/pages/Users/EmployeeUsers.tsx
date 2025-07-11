@@ -36,57 +36,57 @@ export default function EmployeeUsers(){
     }
 
     return (
-    <div className="user-tabs-container">
-      {/* Onglets */}
-      <div className="user-tabs-bar">
-        {TABS.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveTab(tab.key as keyof UsersByRole)}
-            className={`user-tab-btn${activeTab === tab.key ? " selected" : ""}`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+        <div className="user-tabs-container">
+          {/* Onglets */}
+          <div className="user-tabs-bar">
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as keyof UsersByRole)}
+                className={`user-tab-btn${activeTab === tab.key ? " selected" : ""}`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-      {/* Tableau */}
-      <table className="user-table">
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Téléphone</th>
-            <th>Détails</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users && users[activeTab] && users[activeTab].length === 0 ? (
-            <tr>
-              <td colSpan={5} className="user-table-empty">
-                Aucun utilisateur trouvé.
-              </td>
-            </tr>
-          ) : (
-            users &&
-            users[activeTab] &&
-            users[activeTab].map((user) => (
-              <tr key={user._id}>
-                <td>{user.name}</td>
-                <td>{user.lastname}</td>
-                <td>{user.email}</td>
-                <td>{user.phone}</td>
-                <td>
-                  <button className="user-details-btn" onClick={() => handleViewDetails(user)}>
-                    Voir détails
-                  </button>
-                </td>
+          {/* Tableau */}
+          <table className="user-table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Détails</th>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+            </thead>
+            <tbody>
+              {users && users[activeTab] && users[activeTab].length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="user-table-empty">
+                    Aucun utilisateur trouvé.
+                  </td>
+                </tr>
+              ) : (
+                users &&
+                users[activeTab] &&
+                users[activeTab].map((user) => (
+                  <tr key={user._id}>
+                    <td>{user.name}</td>
+                    <td>{user.lastname}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone}</td>
+                    <td>
+                      <button className="user-details-btn" onClick={() => handleViewDetails(user)}>
+                        Voir détails
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
   );
 }
