@@ -10,7 +10,7 @@ export const SessionsList: React.FC<Props> = ({ sessions }) => (
     <h1>Mes sessions</h1>
     <div className="sessions-list">
       {sessions.length === 0 ? (
-        <p>Aucune session à venir.</p>
+        <p>Aucune session</p>
       ) : (
         sessions.map((session) => (
           <div className="session-card" key={session._id}>
