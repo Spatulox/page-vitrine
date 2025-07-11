@@ -9,6 +9,7 @@ export type Room = {
     estimated_duration: number,
     duration: number,
     max_participants: number,
+    visible: boolean
 }
 
 export type RoomSessions = {

@@ -23,6 +23,7 @@ export const zUpdateRoomParams = z.object({
     estimated_duration: z.coerce.number().min(1).optional(),
     duration: z.coerce.number().min(1).optional(),
     max_participants: z.coerce.number().min(1).optional(),
+    visible: z.boolean().optional()
 })
 
 export type GetRoomParam = z.infer<typeof zGetRoomParams>
