@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { GetApi } from "../../api/Axios"
+import { DeleteApi, GetApi } from "../../api/Axios"
 import { EndpointRoute } from "../../api/Endpoint"
 import type { Sessions } from "../../api/Sessions"
 import { SessionsList } from "./BookList"
@@ -15,6 +15,7 @@ export function MySessions(){
 
 function MyActiveBook(){
     const [book, setBook] = useState<Sessions[]>()
+    const [refresh, setRefresh] =useState(0)
 
     useEffect(() => {
         (async () => {
@@ -25,7 +26,16 @@ function MyActiveBook(){
                 console.error(error)
             }
         })()
-    },[])
+    },[refresh])
+
+
+    async function handleCancel(id: string){
+        if(!confirm("Voulez-vous annuler la réservation ?")){
+            return
+          }
+          await DeleteApi(`${EndpointRoute.book}/${id}`)
+          setRefresh(r => r + 1)
+    }
 
     if(!book){
         return <NotFound />
@@ -34,7 +44,12 @@ function MyActiveBook(){
     return<>
         <div>
             <h1>Sessions à venir</h1>
-            <SessionsList sessions={book}/>
+            <SessionsList
+                sessions={book}
+                onCancel={(session) => {
+                    handleCancel(session._id)
+                }}
+            />
         </div>
     </>
 }
