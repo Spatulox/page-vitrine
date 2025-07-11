@@ -1,6 +1,6 @@
 // AppEmploye.tsx
 import { useEffect, useState } from "react";
-import SalleCalendarEmploye from "./SalleCalendarEmploye";
+import SalleCalendarEmploye, { type DetailsReservation } from "./SalleCalendarEmploye";
 import { GetApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
 import type { RoomSessions } from "../../api/Room";
@@ -43,9 +43,9 @@ export default function ManageSessions() {
 
   }
 
-  const handleVoirDetails = (reservation: any) => {
+  const handleVoirDetails = (reservation: DetailsReservation) => {
     alert(
-      `Détails de la réservation :\nSalle : ${reservation.salleName}\nHeure : ${reservation.start} - ${reservation.end}\nTitre : ${reservation.title}\nDescription : ${reservation.description || "Aucune"}`
+      `Détails de la réservation :\nSalle : ${reservation.room.name}\nHeure : ${new Date(reservation.start_time).toLocaleString()}\nDuration : ${reservation.room.duration}\nDescription : ${reservation.room.description || "Aucune"}`
     );
   };
   return (

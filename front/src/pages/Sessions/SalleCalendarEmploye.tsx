@@ -2,16 +2,19 @@ import FullCalendar from "@fullcalendar/react";
 import { type EventInput } from "@fullcalendar/core";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import type { RoomSessions } from "../../api/Room";
+import type { Room, RoomSessions } from "../../api/Room";
 import type { Sessions } from "../../api/Sessions";
+import type { User } from "../../api/User";
 
 const colors = ["#b2f2bb", "#a5d8ff", "#ffd6a5", "#ffa8a8", "#e7c6ff"];
+
+export type DetailsReservation = {_id: string, room: Room, user: User, start_time: Date, participants: number}
 
 type Props = {
   reservations: RoomSessions[];
   date: string;
   onCancel: (reservationId: string) => void;
-  onDetails: (reservation: any) => void;
+  onDetails: (reservation: DetailsReservation ) => void;
 };
 
 export default function SalleCalendarEmploye({
@@ -28,25 +31,29 @@ export default function SalleCalendarEmploye({
     }
   });
 
+  console.log(reservations)
   // Aplatir toutes les sessions pour générer les events
   const events: EventInput[] = reservations.flatMap((r) =>
-    r.sessions.map((session: Sessions) => ({
-      id: session._id,
-      title: `${r.room.name} - ${session.user ? session.user.name : "Réservation"}`,
-      start: session.start_time,
-      color: salleColors[r.room._id],
-      editable: false,
-      extendedProps: {
-        room: r.room,
-        session,
-      },
-    }))
+  Array.isArray(r.sessions)
+    ? r.sessions.map((session: Sessions) => ({
+        id: session._id,
+        title: `${r.room.name} - ${session.user ? session.user.name : "Réservation"}`,
+        start: session.start_time,
+        color: salleColors[r.room._id] ?? "red",
+        editable: false,
+        extendedProps: {
+          room: r.room,
+          session,
+        },
+      }))
+    : []
   );
+
 
   const handleEventClick = (info: any) => {
     const sessionId = info.event.id;
     // Retrouver la réservation (session) correspondante
-    let foundReservation = null;
+    let foundReservation: DetailsReservation | null = null;
     let foundRoom = null;
     for (const r of reservations) {
       const s = r.sessions.find((sess: Sessions) => sess._id === sessionId);
@@ -58,9 +65,7 @@ export default function SalleCalendarEmploye({
     }
     if (!foundReservation) return;
 
-    if (window.confirm("Voir les détails de la réservation ?")) {
-      onDetails({ ...foundReservation, room: foundRoom });
-    }
+    onDetails({ ...foundReservation });
     if (window.confirm("Annuler cette réservation ?")) {
       onCancel(sessionId);
     }
