@@ -64,6 +64,9 @@ export async function bookASessions(user: User, params: BookSessionsParam): Prom
 
     const room = await getRoomById(new ObjectID(params.room_id))
 
+    if(params.participants > room.max_participants){
+        throw new BadRequestError("Il n'y a pas assez de place dans cette salle")
+    }
 
     const date = new Date(params.start_time);
     date.setHours(0, 0, 0, 0);
@@ -89,6 +92,7 @@ export async function bookASessions(user: User, params: BookSessionsParam): Prom
         room_id: params.room_id,
         user_id: user._id,
         start_time: params.start_time,
+        participants: params.participants,
     });
 
     return true;

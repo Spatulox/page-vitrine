@@ -7,7 +7,7 @@ export type Sessions = {
     room_id: ObjectID,
     user_id: ObjectID,
     start_time: Date,
-    participants: ObjectID[],
+    participants: number,
 }
 
 export type FilledSessions = Omit<Sessions, "_id" | "room_id" | "user_id"> & {_id: string, room: FilledRoom, user: FilledUser | null};

@@ -5,6 +5,7 @@ export const zBookSessions = z.object({
     start_time: z.coerce.date(),
     room_id: zObjectId,
     user_id: zObjectId,
+    participants: z.coerce.number().positive().min(1)
 })
 
 

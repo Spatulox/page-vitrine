@@ -6,6 +6,7 @@ const SessionSchema = new Schema<Sessions>({
   room_id: { type: Schema.Types.ObjectId, ref: "Room", required: true },
   user_id: { type: Schema.Types.ObjectId, ref: "User", required: true },
   start_time: { type: Date, required: true },
+  participants: {type: Number, required: true, default: 1},
 });
 
 export const SessionTable = model<Sessions>('Session', SessionSchema);
