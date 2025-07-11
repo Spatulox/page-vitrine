@@ -7,7 +7,7 @@ import { EndpointRoute } from "../api/Endpoint";
 // 1. Définis le type du contexte
 type AuthContextType = {
   isLogged: boolean;
-  login: () => void;
+  login: () => Promise<void>;
   logout: () => void;
   me: User | null;
   refreshMe: () => Promise<void>;
@@ -16,7 +16,7 @@ type AuthContextType = {
 // 2. Crée une valeur par défaut (dummy)
 const defaultAuthContext: AuthContextType = {
   isLogged: false,
-  login: () => {},
+  login: async () => {},
   logout: () => {},
   me: null,
   refreshMe: async () => {},
@@ -48,7 +48,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [isLogged]);
 
-  const login = () => setIsLogged(UserIsLogged());
+  const login = async () => {
+    await refreshMe();
+    setIsLogged(UserIsLogged());
+  };
   const logout = () => {
     Deconnection();
     setIsLogged(false);
