@@ -3,7 +3,7 @@ import type { Room } from "../../api/Room";
 import { PostApi } from "../../api/Axios";
 import { EndpointRoute } from "../../api/Endpoint";
 
-const EMPTY_ROOM: Omit<Room, "_id"> = {
+const EMPTY_ROOM: Omit<Room, "_id" | "visible"> = {
   name: "",
   description: "",
   long_description: "",
@@ -19,7 +19,7 @@ type Props = {
 
 export default function CreateRoom({onCreated}: Props) {
   const [showModal, setShowModal] = useState(false);
-  const [newRoom, setNewRoom] = useState<Omit<Room, "_id">>(EMPTY_ROOM);
+  const [newRoom, setNewRoom] = useState<Omit<Room, "_id" | "visible">>(EMPTY_ROOM);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target;
