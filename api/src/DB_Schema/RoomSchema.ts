@@ -9,6 +9,8 @@ const RoomSchema = new Schema<Room>({
     estimated_duration: {type: Number, required: true},
     duration: {type: Number, required: true},
     max_participants: {type: Number, required: true},
+    visible: {type: Boolean, required: true, default: true},
+    admin_visible: {type: Boolean, required: true, default: true}
 })
 
 export const RoomTable = model('Room', RoomSchema);

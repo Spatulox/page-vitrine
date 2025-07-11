@@ -9,8 +9,10 @@ export type Room = {
     estimated_duration: number,
     duration: number, /* In Minutes */
     max_participants: number,
+    visible: boolean,
+    admin_visible: boolean
 }
 
 
 
-export type FilledRoom = Omit<Room, "_id"> & {_id: string};
+export type FilledRoom = Omit<Room, "_id" | "admin_visible"> & {_id: string};
