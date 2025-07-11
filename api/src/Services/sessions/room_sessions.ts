@@ -17,18 +17,14 @@ import { toUserObject } from "../users/usersPublic";
  */
 export function generateTimeSlots(date: Date, duration: number): Date[] {
     const slots: Date[] = [];
-    let current = new Date(date);
-    current.setHours(9, 0, 0, 0); // Début à 9h00
-
-    const end = new Date(date);
-    end.setHours(23, 0, 0, 0); // Fin à 23h00
+    let current = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 9, 0, 0, 0)); // 9h UTC
+    const end = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 0, 0, 0)); // 23h UTC
 
     const durationMs = duration * 60 * 1000;
-    const intervalMs = 15 * 60 * 1000; // 15 minutes en ms
+    const intervalMs = 15 * 60 * 1000;
 
     while (current.getTime() + durationMs <= end.getTime() + 1) {
         slots.push(new Date(current));
-        // On ajoute la durée du créneau + 15 minutes d'intervalle
         current = new Date(current.getTime() + durationMs + intervalMs);
     }
     return slots;

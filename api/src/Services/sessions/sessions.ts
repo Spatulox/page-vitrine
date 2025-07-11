@@ -62,21 +62,31 @@ export async function getSessionsByID(id: ObjectID, user: User): Promise<FilledS
 
 
 export async function bookASessions(user: User, params: BookSessionsParam): Promise<boolean> {
-
     const room = await getRoomById(new ObjectID(params.room_id))
 
     if(params.participants > room.max_participants){
         throw new BadRequestError("Il n'y a pas assez de place dans cette salle")
     }
+    if (!room.duration || room.duration <= 0) {
+        throw new BadRequestError("La durée de la salle n'est pas définie ou incorrecte");
+    }
 
-    const date = new Date(params.start_time);
-    date.setHours(0, 0, 0, 0);
-    const validSlots = generateTimeSlots(date, room.duration);
+    
+    const startTime = new Date(params.start_time);
+    // Minuit UTC
+    const day = new Date(Date.UTC(
+        startTime.getUTCFullYear(),
+        startTime.getUTCMonth(),
+        startTime.getUTCDate()
+    ));
+
+    const validSlots = generateTimeSlots(day, room.duration);
     const isValidSlot = validSlots.some(slot =>
         slot.getTime() === new Date(params.start_time).getTime()
     );
 
     if (!isValidSlot) {
+        console.log(validSlots)
         throw new BadRequestError(`L'heure demandée ne correspond à aucun créneau valide : ${validSlots.join(" | ")}`);
     }
 
