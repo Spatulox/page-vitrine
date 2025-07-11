@@ -18,7 +18,19 @@ function addRoomDuration(startIso: string, duration: number): string {
 }
 
 export default function SalleCalendarClient({room, disponibilites, date, onReserver}: Props) {
-  const availableEvents: EventInput[] = disponibilites.map((iso, idx) => ({
+
+  const today = new Date();
+  const dateObj = new Date(date);
+  
+  const filteredDisponibilites = disponibilites.filter((iso) => {
+    const start = new Date(iso);
+    if (today.toISOString().split("T")[0] === dateObj.toISOString().split("T")[0]) {
+      return start > today;
+    }
+    return true;
+  });
+  
+  const availableEvents: EventInput[] = filteredDisponibilites.map((iso, idx) => ({
     id: `dispo-${idx}`,
     title: "Disponible",
     start: iso,
