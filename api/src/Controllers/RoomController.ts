@@ -2,7 +2,7 @@ import { Authorized, Body, Delete, Get, HttpCode, JsonController, Param, Post, P
 import { FilledRoom } from "../Models/RoomModel";
 import { ObjectID } from "../DB_Schema/connexion";
 import { zObjectId } from "../Validators/utils";
-import { createRoom, deleteRoom, getAllRooms, getRoomById, updateRoom } from "../Services/rooms/rooms";
+import { createRoom, deleteRoom, getAllRoomsAdmin, getAllRoomsClient, getRoomById, updateRoom } from "../Services/rooms/rooms";
 import { zCreateRoomParams, zGetRoomParams, zUpdateRoomParams } from "../Validators/rooms";
 import { getAllFreeSessionsByDate, getAllSessionsByDate, getEmptySessionsRoomById } from "../Services/sessions/room_sessions";
 import { RoomSessions, RoomSessionsEmpty } from "../Models/SessionsModel";
@@ -15,7 +15,7 @@ export class AdminRoomController {
   @Get('/')
   @Authorized([UserRole.admin, UserRole.employee])
   async getAllRoom(): Promise<FilledRoom[]> {
-    return await getAllRooms()
+    return await getAllRoomsAdmin()
   }
 
   @Get('/sessions')
@@ -54,7 +54,7 @@ export class AdminRoomController {
 export class RoomController {
   @Get('/')
   async getAllRoom(): Promise<FilledRoom[]> {
-    return await getAllRooms()
+    return await getAllRoomsClient()
   }
 
   @Get('/sessions')

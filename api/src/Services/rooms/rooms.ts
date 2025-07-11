@@ -3,13 +3,23 @@ import { RoomTable } from "../../DB_Schema/RoomSchema";
 import { FilledRoom } from "../../Models/RoomModel";
 import { CreateRoomParam, UpdateRoomParam } from "../../Validators/rooms";
 
-export async function getAllRooms(): Promise<FilledRoom[]>{
-    const rooms = await RoomTable.find()
+export async function getAllRoomsClient(): Promise<FilledRoom[]>{
+    const rooms = await RoomTable.find({visible: true})
+    return rooms.map(toRoomObject)
+}
+
+export async function getAllRoomsAdmin(): Promise<FilledRoom[]>{
+    const rooms = await RoomTable.find({admin_visible: true})
     return rooms.map(toRoomObject)
 }
 
 export async function getRoomById(id: ObjectID): Promise<FilledRoom> {
-    const room = await RoomTable.findById(id)
+    const room = await RoomTable.find(
+        {
+            _id: id,
+            visible: true,
+        }
+    )
     return toRoomObject(room)
 }
 
@@ -22,6 +32,7 @@ export async function createRoom(param: CreateRoomParam): Promise<FilledRoom>{
 
 export async function updateRoom(ID: ObjectID, param: UpdateRoomParam): Promise<FilledRoom>{
     const updatedRoom = await RoomTable.findByIdAndUpdate(
+        ID,
         { $set: param },
         { new: true }
     );
@@ -32,13 +43,30 @@ export async function updateRoom(ID: ObjectID, param: UpdateRoomParam): Promise<
     return toRoomObject(updatedRoom)
 }
 
-export async function deleteRoom(id: ObjectID): Promise<boolean>{
-    const deleted = await RoomTable.findByIdAndDelete(id);
-    if (!deleted) {
+export async function deleteRoom(id: ObjectID): Promise<boolean> {
+    const room = await RoomTable.findById(id);
+
+    if (!room) {
         throw new Error("Room not found");
     }
-    return true;
+
+    if (room.visible === false) {
+        const updated = await RoomTable.findByIdAndUpdate(
+            id,
+            { $set: { admin_visible: false } },
+            { new: true }
+        );
+        return !!updated;
+    }
+
+    const updated = await RoomTable.findByIdAndUpdate(
+        id,
+        { $set: { visible: false } },
+        { new: true }
+    );
+    return !!updated;
 }
+
 
 export function toRoomObject(room: any): FilledRoom{
     const data: FilledRoom = {
@@ -50,6 +78,7 @@ export function toRoomObject(room: any): FilledRoom{
         estimated_duration: room.estimated_duration,
         duration: room.duration,
         max_participants: room.max_participants,
+        visible: room.visible
     }
 
     return data
