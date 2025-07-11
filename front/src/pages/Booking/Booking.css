@@ -141,3 +141,59 @@
   from { opacity: 0; transform: scale(0.95);}
   to { opacity: 1; transform: scale(1);}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.sessions-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #f6f6fa;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.session-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: box-shadow 0.2s;
+}
+
+.session-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.session-room {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #4a2b8b;
+  margin-bottom: 6px;
+}
+
+.session-info span {
+  display: block;
+  margin-top: 2px;
+  color: #333;
+}
