@@ -33,7 +33,7 @@ function MyActiveBook(){
 
     return<>
         <div>
-            <h1>Current book</h1>
+            <h1>Sessions à venir</h1>
             <SessionsList sessions={book}/>
         </div>
     </>
@@ -59,7 +59,7 @@ function MyOldBook(){
 
     return<>
         <div>
-            <h1>Old book</h1>
+            <h1>Sessions passés</h1>
             <SessionsList sessions={book}/>
         </div>
     </>

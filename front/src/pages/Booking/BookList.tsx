@@ -1,13 +1,12 @@
-import React from "react";
 import type { Sessions } from "../../api/Sessions";
 
 type Props = {
   sessions: Sessions[];
 };
 
-export const SessionsList: React.FC<Props> = ({ sessions }) => (
+export function SessionsList({ sessions }: Props) {
+  return (
   <div className="sessions-container">
-    <h1>Mes sessions</h1>
     <div className="sessions-list">
       {sessions.length === 0 ? (
         <p>Aucune session</p>
@@ -31,7 +30,7 @@ export const SessionsList: React.FC<Props> = ({ sessions }) => (
                 <strong>Participants :</strong> {session.participants}
               </span>
               <span>
-                <strong>Réservé par :</strong> {session.user.name} {session.user.lastname}
+                
               </span>
             </div>
           </div>
@@ -39,4 +38,8 @@ export const SessionsList: React.FC<Props> = ({ sessions }) => (
       )}
     </div>
   </div>
-);
+)
+}
+
+
+//<strong>Réservé par :</strong> {session.user.name} {session.user.lastname}
