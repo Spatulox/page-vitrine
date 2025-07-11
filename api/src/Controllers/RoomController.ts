@@ -1,12 +1,13 @@
-import { Authorized, Get, JsonController, Param, QueryParams } from "routing-controllers";
+import { Authorized, Body, Delete, Get, HttpCode, JsonController, Param, Post, Put, QueryParams } from "routing-controllers";
 import { FilledRoom } from "../Models/RoomModel";
 import { ObjectID } from "../DB_Schema/connexion";
 import { zObjectId } from "../Validators/utils";
-import { getAllRooms, getRoomById } from "../Services/rooms/rooms";
-import { zGetRoomParams } from "../Validators/rooms";
+import { createRoom, deleteRoom, getAllRooms, getRoomById, updateRoom } from "../Services/rooms/rooms";
+import { zCreateRoomParams, zGetRoomParams, zUpdateRoomParams } from "../Validators/rooms";
 import { getAllFreeSessionsByDate, getAllSessionsByDate, getEmptySessionsRoomById } from "../Services/sessions/room_sessions";
 import { RoomSessions, RoomSessionsEmpty } from "../Models/SessionsModel";
 import { UserRole } from "../DB_Schema/UserSchema";
+import { id_ID } from "@faker-js/faker/.";
 
 
 @JsonController("/admin/rooms")
@@ -22,6 +23,29 @@ export class AdminRoomController {
   async getAllRoomSessions(@QueryParams() param: any): Promise<RoomSessions[]> {
     const validParam = zGetRoomParams.parse(param)
     return await getAllSessionsByDate(validParam)
+  }
+
+  @Post('/')
+  @Authorized([UserRole.admin, UserRole.employee])
+  async createRoom(@Body() body: any): Promise<FilledRoom>{
+    const validParam =zCreateRoomParams.parse(body)
+    return createRoom(validParam)
+  }
+
+  @Put('/:id')
+  @Authorized([UserRole.admin, UserRole.employee])
+  async updateRoom(@Param('id') id: string, @Body() body: any): Promise<FilledRoom>{
+    const validID = new ObjectID(zObjectId.parse(id))
+    const validParam = zUpdateRoomParams.parse(body)
+    return updateRoom(validID, validParam)
+  }
+
+  @Delete('/:id')
+  @Authorized([UserRole.admin, UserRole.employee])
+  @HttpCode(204)
+  async deleteRoom(@Param('id') id: string): Promise<boolean>{
+    const validID = new ObjectID(zObjectId.parse(id))
+    return deleteRoom(validID)
   }
 }
 
