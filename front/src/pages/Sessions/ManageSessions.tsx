@@ -48,7 +48,6 @@ export default function ManageSessions() {
       `Détails de la réservation :\nSalle : ${reservation.salleName}\nHeure : ${reservation.start} - ${reservation.end}\nTitre : ${reservation.title}\nDescription : ${reservation.description || "Aucune"}`
     );
   };
-
   return (
     <div>
       <label>

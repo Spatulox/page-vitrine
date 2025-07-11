@@ -141,7 +141,7 @@ export function toSessionsObject(obj: any): FilledSessions{
         _id: obj._id.toString(),
         room: toRoomObject(obj.room_id),
         user: obj.user_id ? toUserObject(obj.user_id) : null,
-        start_time: obj.start_time.toString(),
+        start_time: obj.start_time.toISOString(),
         participants: obj.participants,
     }
 }
