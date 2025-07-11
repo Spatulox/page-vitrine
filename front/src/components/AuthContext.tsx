@@ -25,6 +25,19 @@ const defaultAuthContext: AuthContextType = {
 // 3. Passe la valeur par défaut à createContext
 const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
+function getStoredUser(): User | null {
+  try {
+    const raw = localStorage.getItem("user");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    // On considère qu'un user a un _id (adapte selon ton modèle)
+    if (parsed && typeof parsed === "object" && parsed._id) return parsed;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLogged, setIsLogged] = useState(UserIsLogged());
   const [me, setMe] = useState<User | null>(
@@ -35,12 +48,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshMe = async () => {
     try {
       const res = await GetApi(EndpointRoute.me);
-      if(me && JSON.stringify(res) !== JSON.stringify(me)){
-        console.log("meeeeeeee")
-        localStorage.setItem("user", JSON.stringify(res));
-        setMe(res);
+      if (res && typeof res === "object" && res._id) {
+        if (!me || JSON.stringify(res) !== JSON.stringify(me)) {
+          localStorage.setItem("user", JSON.stringify(res));
+          setMe(res);
+        }
+      } else {
+        localStorage.removeItem("user");
+        setMe(null);
       }
     } catch {
+      localStorage.removeItem("user");
       setMe(null);
     }
   };

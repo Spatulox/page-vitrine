@@ -135,7 +135,7 @@ export async function DeleteApi(url: string, body?: object, param?: object) {
 export function Deconnection() {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
-  localStorage.setItem("user", "{}");
+  localStorage.removeItem("user");
 }
 
 
