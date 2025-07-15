@@ -67,8 +67,11 @@ export async function bookASessions(user: User, params: BookSessionsParam): Prom
         throw new BadRequestError("La durée de la salle n'est pas définie ou incorrecte");
     }
 
-    
     const startTime = new Date(params.start_time);
+
+    if (startTime.getUTCDay() === 0) {
+    throw new BadRequestError("Les réservations ne sont pas possibles le dimanche.");
+  }
     // Minuit UTC
     const day = new Date(Date.UTC(
         startTime.getUTCFullYear(),
