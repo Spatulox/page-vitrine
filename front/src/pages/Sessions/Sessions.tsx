@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SessionsClient from "./SessionsClient";
 import { useSearchParams } from "react-router-dom";
+import { ToastService } from "../../services/ToastService"
 
 function Sessions() {
     const [selectedDate, setSelectedDate] = useState(() => {
@@ -11,9 +12,17 @@ function Sessions() {
     const [searchParams] = useSearchParams();
     const date = searchParams.get("date");
 
-    const handleDateChange = (e: any) => {
-        setSelectedDate(e.target.value);
-    };
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const selected = new Date(value);
+
+    if (selected.getDay() === 0) {
+      ToastService.error("Les réservations ne sont pas disponibles le dimanche.");
+      return;
+    }
+
+    setSelectedDate(value);
+  };
     
     const todayISO = new Date().toISOString().split('T')[0];
     const dateMin = (date && !isNaN(Date.parse(date))) ? date : todayISO;
@@ -21,6 +30,7 @@ function Sessions() {
     useEffect(() => {
         setSelectedDate(dateMin)
     }, [dateMin])
+
 
     return (
         <div>
