@@ -14,6 +14,8 @@ import UpdateMyAccount from './pages/Account/UpdateAccount';
 import Manage from './pages/Manage/Manage';
 import ManageSessions from './pages/Sessions/ManageSessions';
 import { MenuManageRoom } from './pages/Rooms/ManageRooms';
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 
 
@@ -67,6 +69,7 @@ function App() {
 
 
         </Routes>
+        <ToastContainer position="bottom-right" autoClose={4000} />
         </main>
         <Footer />
     </BrowserRouter>
