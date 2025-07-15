@@ -13,7 +13,7 @@ import { SessionsController } from './Controllers/SessionsController';
 async function main(){
   await connectDB()
 
-  const port = 3000
+  const port = 8080
   const app = express()
 
   const routingControllerOptions: RoutingControllersOptions = {
