@@ -1,15 +1,13 @@
 {
-  "name": "api-copain-quartier",
+  "name": "projet-fil-rouge",
   "version": "1.0.0",
-  "description": "pa troisième annee",
+  "description": "Projet final REACT",
   "main": "main.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/src/main.js",
-    "dev": "nodemon -e ts --exec ts-node src/main.ts",
-    "generate_data": "tsc && node dist/GenerateFakeData.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "start": "npm run build && node dist/src/main.js",
+    "generate_data": "tsc && node dist/GenerateFakeData.js"
+    },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -24,9 +22,7 @@
     "nodemailer": "^7.0.3",
     "routing-controllers": "^0.11.2",
     "ws": "^8.18.1",
-    "zod": "^3.24.2"
-  },
-  "devDependencies": {
+    "zod": "^3.24.2",
     "@faker-js/faker": "^9.6.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.18",
