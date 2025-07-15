@@ -6,6 +6,7 @@ import { FrontRoute } from "../../App";
 import { useAuth } from "../../components/AuthContext";
 import DetailsNormalUser from "./DetailsNormalUser";
 import { EndpointRoute } from "../../api/Endpoint";
+import { ToastService } from "../../services/ToastService";
 
 export default function UserDetailsAdmin() {
   const { id } = useParams<{ id: string }>();
@@ -35,7 +36,7 @@ export default function UserDetailsAdmin() {
           phone: res.phone,
         });
       } catch (e) {
-        alert("Utilisateur introuvable !");
+        ToastService.error("Utilisateur introuvable !");
       } finally {
         setLoading(false);
       }

@@ -7,6 +7,7 @@ import { EndpointRoute } from "../../api/Endpoint";
 import DetailsNormalUser from "../Users/DetailsNormalUser";
 import { UserRole } from "../../api/User";
 import BackButton from "../../components/BackButton";
+import { ToastService } from "../../services/ToastService";
 
 async function fetchCurrentUser(): Promise<User> {
   const res = await GetApi(EndpointRoute.me)
@@ -16,7 +17,7 @@ async function fetchCurrentUser(): Promise<User> {
 async function updateMyAccountEndpoint(data: Partial<User>): Promise<boolean> {
     const {me} = useAuth()
     if(!me){
-        alert("Pas de moi")
+        ToastService.error("Pas de moi")
         return false
     }
     try {
@@ -33,7 +34,7 @@ async function deleteMyAccountEndpoint(): Promise<boolean> {
     const {me} = useAuth()
     const navigate = useNavigate()
     if(!me){
-        alert("Pas de moi")
+        ToastService.error("Pas de moi")
         return false
     }
     try {

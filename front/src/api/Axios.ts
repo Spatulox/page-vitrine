@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { ToastService } from "../services/ToastService"
 
 // Création de l'instance Axios
 const api: AxiosInstance = axios.create({
@@ -61,14 +62,14 @@ api.interceptors.response.use(
         originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         return api(originalRequest);
       } else {
-        popup("Déconnexion forcée");
+        ToastService.error("Déconnexion forcée");
         Deconnection();
       }
     }
     if (error.response && error.response.status !== 401) {
-      alert(error.code + " " + error.response.statusText);
+      ToastService.error(error.code + " " + error.response.statusText);
       if (error.response.data && error.response.data.message) {
-        popup(error.response.data.message);
+        ToastService.error(error.response.data.message);
       }
     }
     return Promise.reject(error);
@@ -107,7 +108,7 @@ export async function GetApi(url: string, param?: object) {
     const res = await fetchApi(url + queryString);
     return res.data;
   } catch (error) {
-    alert(error);
+    ToastService.error(String(error));
   }
 }
 
@@ -138,10 +139,6 @@ export function Deconnection() {
   localStorage.removeItem("user");
 }
 
-
-function popup(msg: string) {
-  alert(msg);
-}
 function objectToQueryString(params?: object) {
   if (!params) return '';
   return (
