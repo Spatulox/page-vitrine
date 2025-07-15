@@ -64,14 +64,43 @@ api.interceptors.response.use(
       } else {
         ToastService.error("Déconnexion forcée");
         Deconnection();
+        return Promise.reject(error);
       }
     }
+
+    // Gestion des erreurs 400 avec messages Zod
+    if (
+      error.response &&
+      error.response.status === 400 &&
+      typeof error.response.data === 'object' &&
+      !Array.isArray(error.response.data)
+    ) {
+      const data = error.response.data;
+      // Si c'est une erreur simple : { message: "..." }
+      if ("message" in data) {
+        ToastService.error(data.message as string);
+      } 
+      // Sinon, probablement des erreurs Zod : { field1: "...", field2: "..." }
+      else {
+        Object.entries(data).forEach(([field, message]) => {
+          ToastService.error(`${field} : ${message}`);
+        });
+      }
+      return Promise.reject(error);
+    }
+    // Autres erreurs (403, 404, 500...)
     if (error.response && error.response.status !== 401) {
-      ToastService.error(error.code + " " + error.response.statusText);
-      if (error.response.data && error.response.data.message) {
-        ToastService.error(error.response.data.message);
+      const data = error.response.data;
+
+      if (typeof data === "string") {
+        ToastService.error(data);
+      } else if (data?.message) {
+        ToastService.error(data.message);
+      } else {
+        ToastService.error("Une erreur est survenue.");
       }
     }
+
     return Promise.reject(error);
   }
 );
