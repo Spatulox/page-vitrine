@@ -10,7 +10,7 @@ import type { Room } from "../../api/Room";
 export type ClientReserveType = { user_id: string, start_time: any, end: any, participants: number }
 
 
-interface ReservationModalProps {
+interface BookingModalProps {
   open: boolean;
   room: Room,
   onClose: () => void;
@@ -19,14 +19,14 @@ interface ReservationModalProps {
   end: string;
 }
 
-export default function ReservationModal({
+export default function BookingModal({
   open,
   room,
   onClose,
   onReserve,
   start,
   end,
-}: ReservationModalProps) {
+}: BookingModalProps) {
   const { me, isLogged } = useAuth();
   const [showCreation, setShowCreation] = useState(false);
   const [pendingAccount, setPendingAccount] = useState(false);

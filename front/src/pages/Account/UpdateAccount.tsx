@@ -14,7 +14,7 @@ async function fetchCurrentUser(): Promise<User> {
   return res
 }
 
-async function updateMyAccountEndpoint(data: Partial<User>): Promise<boolean> {
+async function updateAccountEndpoint(data: Partial<User>): Promise<boolean> {
     const {me} = useAuth()
     if(!me){
         ToastService.error("Pas de moi")
@@ -29,7 +29,7 @@ async function updateMyAccountEndpoint(data: Partial<User>): Promise<boolean> {
     }
 }
 
-async function deleteMyAccountEndpoint(): Promise<boolean> {
+async function deleteAccountEndpoint(): Promise<boolean> {
     if (!window.confirm("Supprimer cet utilisateur ?")) return false;
     const {me} = useAuth()
     const navigate = useNavigate()
@@ -64,7 +64,7 @@ type FormUser = {
   role: UserRole;
 };
 
-export default function UpdateMyAccount() {
+export default function UpdateAccount() {
   const [user, setUser] = useState<User | null>(null);
   const [form, setForm] = useState<FormUser>({
     name: "",
@@ -99,13 +99,13 @@ export default function UpdateMyAccount() {
 
   const handleUpdate = async () => {
     setMessage(null);
-    const success = await updateMyAccountEndpoint(form);
+    const success = await updateAccountEndpoint(form);
     setMessage(success ? "Mise à jour réussie !" : "Erreur lors de la mise à jour.");
   };
 
   const handleDelete = async () => {
     setMessage(null);
-    const success = await deleteMyAccountEndpoint();
+    const success = await deleteAccountEndpoint();
     setMessage(success ? "Compte supprimé !" : "Erreur lors de la suppression.");
     // Optionnel : rediriger ou déconnecter
   };
