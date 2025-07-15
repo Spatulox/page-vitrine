@@ -137,7 +137,8 @@ export async function GetApi(url: string, param?: object) {
     const res = await fetchApi(url + queryString);
     return res.data;
   } catch (error) {
-    ToastService.error(String(error));
+    console.error("Erreur GetApi:", error);
+    throw error;
   }
 }
 
