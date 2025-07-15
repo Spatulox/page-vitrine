@@ -1,30 +1,16 @@
-FROM node:alpine AS builder
+FROM node:20
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
+# Copie et installation
 COPY package.json package-lock.json ./
+RUN npm install
 
-RUN npm ci
-
+# Copie du code source
 COPY . .
 
+# Build TypeScript + exécution
 RUN npm run build
 
-FROM node:slim
-
-ENV NODE_ENV=production
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package.json package-lock.json ./
-
-RUN npm install --only=production --no-audit 
-
-COPY --from=builder /usr/src/app/dist ./dist
-
 EXPOSE 8080
-CMD [ "node", "dist/src/main.js" ]
+CMD ["npm", "run", "start"]
