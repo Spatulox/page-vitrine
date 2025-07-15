@@ -1,14 +1,34 @@
 services:
+  api:
+    build:
+      context: ./api
+    container_name: projet-fil-rouge-api
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+
+  front:
+    container_name: projet-fil-rouge-front
+    working_dir: /app
+    image: node:20
+    volumes:
+      - ./front:/app
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run start -- --host"
+    env_file:
+      - .env
+
   mongodb:
     image: mongo:latest
-    container_name: projet-fil-rouge
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+    container_name: projet-fil-rouge-mongo
     ports:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+    env_file:
+      - .env
 
 volumes:
   mongodb_data:
