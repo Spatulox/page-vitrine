@@ -16,6 +16,7 @@ import ManageSessions from './pages/Sessions/ManageSessions';
 import { MenuManageRoom } from './pages/Rooms/ManageRooms';
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import "./services/ToastService.css"
 
 
 
@@ -69,7 +70,7 @@ function App() {
 
 
         </Routes>
-        <ToastContainer position="bottom-right" autoClose={4000} />
+        <ToastContainer position="bottom-right" autoClose={4000} toastClassName="custom-toast" progressClassName="custom-toast-progress"/>
         </main>
         <Footer />
     </BrowserRouter>
