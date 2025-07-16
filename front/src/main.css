@@ -95,6 +95,14 @@ h1, h2 {
   color: var(--text-color);
 }
 
+.fit-content {
+  width: fit-content;
+}
+
+.max-width-90vw {
+  max-width: 90vw;
+}
+
 form {
   max-width: 600px;
   margin: 0 auto;
