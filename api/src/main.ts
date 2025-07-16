@@ -9,6 +9,7 @@ import { parse } from 'url';
 import { AuthController } from './Controllers/AuthController';
 import { AdminRoomController, RoomController } from './Controllers/RoomController';
 import { SessionsController } from './Controllers/SessionsController';
+import { ContactController } from './Controllers/ContactController';
 
 async function main(){
   await connectDB()
@@ -29,6 +30,7 @@ async function main(){
       AdminRoomController,
 
       AuthController,
+      ContactController,
       RoomController,
       SessionsController,
       UserController],

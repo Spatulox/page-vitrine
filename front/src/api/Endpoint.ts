@@ -15,4 +15,8 @@ export enum EndpointRoute {
 
     /* BOOK SESSION */
     book = "/sessions",
+
+
+    /* CONTACT */
+    contact = "/contacts"
 }
