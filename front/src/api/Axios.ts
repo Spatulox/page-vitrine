@@ -77,7 +77,7 @@ api.interceptors.response.use(
     ) {
       const data = error.response.data;
       // Si c'est une erreur simple : { message: "..." }
-      if ("message" in data) {
+      if ("message" in data && Object.entries(data).length <= 1 ) {
         ToastService.error(data.message as string);
       } 
       // Sinon, probablement des erreurs Zod : { field1: "...", field2: "..." }
