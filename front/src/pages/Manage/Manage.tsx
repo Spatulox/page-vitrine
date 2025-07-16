@@ -21,5 +21,6 @@ export default function Manage(){
         <button onClick={() => navigate(FrontRoute.Users)}>Gérer les utilisateurs</button>
         <button onClick={() => navigate(FrontRoute.ManageSessions)}>Gérer les sessions</button>
         <button onClick={() => navigate(FrontRoute.ManageRooms)}>Gérer les Salles</button>
+        <button onClick={() => navigate(FrontRoute.ManageMessages)}>Gérer les Messages</button>
     </>
 }

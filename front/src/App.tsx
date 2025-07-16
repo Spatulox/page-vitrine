@@ -17,6 +17,7 @@ import { MenuManageRoom } from './pages/Rooms/ManageRooms';
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import "./services/ToastService.css"
+import ManageContactMessages from './pages/Contact/ManageContactMessages';
 
 
 
@@ -34,6 +35,7 @@ export enum FrontRoute {
   Manage = "/manage",
   ManageSessions = `${FrontRoute.Sessions}/manage`,
   ManageRooms = `${FrontRoute.Rooms}/manage`,
+  ManageMessages = `${FrontRoute.Contact}/manage`,
 
   Users = "/users",
 };
@@ -67,6 +69,7 @@ function App() {
           <Route path={`${FrontRoute.Manage}`} element={<Manage />} />
           <Route path={`${FrontRoute.ManageSessions}`} element={<ManageSessions />} />
           <Route path={`${FrontRoute.ManageRooms}`} element={<MenuManageRoom />} />
+          <Route path={`${FrontRoute.ManageMessages}`} element={<ManageContactMessages />} />
 
 
         </Routes>
