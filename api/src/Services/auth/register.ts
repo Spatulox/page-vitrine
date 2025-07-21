@@ -5,8 +5,8 @@ import { hashPassword } from "./password";
 import { BadRequestError, InternalServerError } from "routing-controllers";
 import { NewsletterSender } from "../../Utils/mailer";
 
-export async function registerUser(params: RegisterParams, file: Express.Multer.File): Promise<ConnectionToken> {
-  const user = await saveUser(params, file);
+export async function registerUser(params: RegisterParams): Promise<ConnectionToken> {
+  const user = await saveUser(params);
 
   const [accessToken, refreshToken] = await Promise.all([
     generateToken({
@@ -27,7 +27,7 @@ export async function registerUser(params: RegisterParams, file: Express.Multer.
   };
 }
 
-async function saveUser(params: RegisterParams, file: Express.Multer.File) {
+async function saveUser(params: RegisterParams) {
   const hashedPassword = await hashPassword(params.password);
   try {
 
